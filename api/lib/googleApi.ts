@@ -67,3 +67,19 @@ export async function getSheetData(spreadsheetId: string, range: string) {
   
   return response.data.values;
 }
+
+export async function updateSheetRow(spreadsheetId: string, range: string, values: any[][]) {
+  const auth = getAuthClient(process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL || '');
+  const sheets = google.sheets({ version: 'v4', auth });
+  
+  const response = await sheets.spreadsheets.values.update({
+    spreadsheetId,
+    range,
+    valueInputOption: 'USER_ENTERED',
+    requestBody: {
+      values,
+    },
+  });
+  
+  return response.data;
+}

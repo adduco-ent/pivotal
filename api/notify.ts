@@ -53,6 +53,44 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       htmlBody
     );
 
+    // 3. Send Auto-Responder to the Lead (A/B Split Test)
+    const isVariationA = Math.random() < 0.5;
+    
+    let autoResponderSubject = '';
+    let autoResponderBody = '';
+
+    if (isVariationA) {
+      autoResponderSubject = `Your funnel is about to get a lot tighter.`;
+      autoResponderBody = `
+        <p>Hey ${name},</p>
+        <p>Jarred here, Founder of PivotalX.</p>
+        <p>I see your booking request just came through. First of all, respect for pulling the trigger. Most founders just watch their revenue leak out of their funnels and hope it fixes itself. It doesn't.</p>
+        <p>We're going to dive deep into your entire architecture and find exactly where you're bleeding cash. I'll review your info and get back to you shortly to lock in a time for us to talk.</p>
+        <p>Talk soon,<br/>Jarred Letofsky</p>
+      `;
+    } else {
+      autoResponderSubject = `I caught your booking request. Let's fix those leaks.`;
+      autoResponderBody = `
+        <p>Hey ${name},</p>
+        <p>Jarred here. Just got your strategy call request.</p>
+        <p>I've already got my team pulling up the blueprint on your current setup. To be completely honest, looking at funnels that are leaking revenue physically hurts my soul—so I'm looking forward to getting in there and patching it up for you.</p>
+        <p>I'm reviewing your details now, and I'll shoot you over a couple of times to connect shortly. Take a breath; the hard part is over.</p>
+        <p>Best,<br/>Jarred Letofsky<br/>Founder, PivotalX</p>
+      `;
+    }
+
+    try {
+      await sendEmail(
+        'jarred@pivotaltimes.io', // Switch to hello@pivotaltimes.io once created
+        email, // Send TO the lead
+        autoResponderSubject,
+        autoResponderBody
+      );
+    } catch (autoResponderError) {
+      console.error('Failed to send auto-responder to lead:', autoResponderError);
+      // We don't fail the whole request if the autoresponder fails
+    }
+
     return res.status(200).json({ success: true, message: 'Booking received and notification sent' });
   } catch (error: any) {
     console.error('Error in notify endpoint:', error);

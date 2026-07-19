@@ -1,12 +1,24 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { sendEmail, getSheetData } from './lib/googleApi.js';
+import { sendEmail, getSheetData, updateSheetRow } from './lib/googleApi.js';
 import { EMAIL_TEMPLATES } from './lib/emailTemplates.js';
-import { hasBeenContacted, logEmailSent } from './lib/db.js';
+import { hasBeenContacted, logEmailSent, getEmailsSentTodayCount } from './lib/db.js';
+
+// Configuration
+const WARMUP_START_DATE = new Date('2026-07-19T00:00:00Z');
+
+function getDailyLimit(): number {
+  const now = new Date();
+  const diffTime = Math.abs(now.getTime() - WARMUP_START_DATE.getTime());
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+  
+  if (diffDays <= 7) return 15;
+  if (diffDays <= 14) return 30;
+  if (diffDays <= 21) return 50;
+  return 100;
+}
 
 // This endpoint is triggered by Vercel Cron
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  // Protect the cron endpoint from public access if needed, though Vercel handles authorization via headers for cron.
-  
   const SPREADSHEET_ID = process.env.GOOGLE_SHEET_ID;
   if (!SPREADSHEET_ID) {
     console.log('Missing GOOGLE_SHEET_ID. Skipping outreach.');
@@ -14,53 +26,65 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    // 1. Fetch leads from Google Sheet (First Name, Email, Status)
-    // Using 'A2:C' defaults to the first sheet automatically.
-    const rows = await getSheetData(SPREADSHEET_ID, 'A2:C');
+    // 1. Warmup Throttle Check
+    const dailyLimit = getDailyLimit();
+    const emailsSentToday = await getEmailsSentTodayCount();
+    
+    if (emailsSentToday >= dailyLimit) {
+      console.log(`Daily limit reached (${emailsSentToday}/${dailyLimit}). Pausing until tomorrow.`);
+      return res.status(200).json({ status: 'throttled', emailsSentToday, dailyLimit });
+    }
+
+    // 2. Fetch leads from Google Sheet (First Name, Email, Status, Notes)
+    const rows = await getSheetData(SPREADSHEET_ID, 'A2:D');
     if (!rows || rows.length === 0) {
       return res.status(200).json({ status: 'completed', message: 'No leads found' });
     }
 
     let emailsProcessed = 0;
     
-    // Process top-to-bottom, strictly 1 or 2 per tick to avoid rate limits
+    // Process top-to-bottom
     for (let i = 0; i < rows.length; i++) {
+      // Re-verify daily limit locally per tick
+      if (emailsSentToday + emailsProcessed >= dailyLimit) break;
       if (emailsProcessed >= 2) break; // Hard limit per cron tick (waterfall flow)
 
-      const [firstName, email, status] = rows[i];
+      const [firstName, email, status, notes] = rows[i];
 
-      // 2. Do Not Disturb checks
+      // 3. Do Not Disturb checks
       if (!email || !email.includes('@')) continue;
       const skipStatuses = ['dnd', 'replied', 'in convo', 'sent'];
       if (status && skipStatuses.includes(status.toLowerCase())) continue;
+      // Skip if Notes column indicates it was already processed
+      if (notes && notes.includes('[Sent from')) continue;
 
-      // 3. Deduplication via Supabase
+      // 4. Deduplication via Supabase
       const contacted = await hasBeenContacted(email);
       if (contacted) {
         console.log(`Skipping ${email}: Already in Supabase database.`);
         continue;
       }
 
-      // 4. Send Email (Domain Warmup: you can rotate sender accounts here)
-      const senderAccount = 'jarred@pivotaltimes.io'; // or rotate based on logic
+      // 5. Send Email
+      const senderAccount = 'jarred@pivotaltimes.io'; // Change to hello@ later
       const template = EMAIL_TEMPLATES.sequenceA.initial;
-
-      // Replace newlines with <br/> for HTML
       const htmlBody = template.body.replace(/\n/g, '<br/>');
 
       console.log(`Sending Initial Outreach to ${email} from ${senderAccount}`);
+      await sendEmail(senderAccount, email, template.subject, htmlBody);
       
-      // 3. Send the email!
-      // Rotating sending accounts could go here. For now, use the primary domain.
-      await sendEmail('jarred@pivotaltimes.io', email, template.subject, htmlBody);
-      
-      // 5. Log to Database
+      // 6. Log to Database
       await logEmailSent(email, 'SequenceA_Initial');
+      
+      // 7. Write back to Google Sheets (Column D is Notes. Row is i + 2)
+      const timestamp = new Date().toLocaleString('en-US', { timeZone: 'America/New_York' });
+      const logMessage = `[Sent from ${senderAccount} at ${timestamp} EST]`;
+      await updateSheetRow(SPREADSHEET_ID, `D${i + 2}`, [[logMessage]]);
       
       emailsProcessed++;
     }
 
-    return res.status(200).json({ success: true, processed: emailsProcessed });
+    return res.status(200).json({ success: true, processed: emailsProcessed, limit: dailyLimit });
   } catch (error: any) {
     console.error('Outreach engine error:', error);
     return res.status(500).json({ error: 'Outreach failed', details: error.message });
