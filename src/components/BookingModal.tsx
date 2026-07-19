@@ -125,25 +125,17 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
   const send = async () => {
     setStatus('sending')
     try {
-      const { error } = await supabase
-        .from('strategy_calls')
-        .insert([{
-          name: form.name,
-          email: form.email,
-          phone: form.phone,
-          website: form.website,
-          revenue: form.revenue,
-          message: form.message
-        }])
+      const response = await fetch('/api/notify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form)
+      })
 
-      if (error) {
-        console.error('Error inserting form:', error)
-        // Fallback to mailto if Supabase fails or is misconfigured
-        fallbackToEmail()
-        return
+      if (!response.ok) {
+        throw new Error('Failed to submit booking')
       }
-    } catch (e) {
-      console.error('Unexpected error:', e)
+    } catch (err) {
+      console.error('Error submitting form:', err)
       fallbackToEmail()
       return
     }
