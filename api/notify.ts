@@ -14,19 +14,23 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(400).json({ error: 'Name and email are required' });
     }
 
-    // 1. Insert into Supabase
-    const { error: dbError } = await db.from('strategy_calls').insert([{
-      name,
-      email,
-      phone,
-      website,
-      revenue,
-      message
-    }]);
+    // 1. Insert into Supabase (if db is configured)
+    if (db) {
+      const { error: dbError } = await db.from('strategy_calls').insert([{
+        name,
+        email,
+        phone,
+        website,
+        revenue,
+        message
+      }]);
 
-    if (dbError) {
-      console.error('Supabase insert error:', dbError);
-      // We continue to send the email even if DB fails so lead isn't lost
+      if (dbError) {
+        console.error('Supabase insert error:', dbError);
+        // We continue to send the email even if DB fails so lead isn't lost
+      }
+    } else {
+      console.warn('Supabase DB client not initialized. Skipping database insert.');
     }
 
     // 2. Send Email Notification

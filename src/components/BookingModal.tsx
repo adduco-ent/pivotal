@@ -132,7 +132,9 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
       })
 
       if (!response.ok) {
-        throw new Error('Failed to submit booking')
+        const errorText = await response.text();
+        console.error('Backend error:', errorText);
+        throw new Error(`Failed to submit booking: ${errorText}`)
       }
     } catch (err) {
       console.error('Error submitting form:', err)
