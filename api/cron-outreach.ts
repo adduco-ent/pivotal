@@ -42,7 +42,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
 
       // 4. Send Email (Domain Warmup: you can rotate sender accounts here)
-      const senderAccount = 'hello@pivotaltimes.io'; // or rotate based on logic
+      const senderAccount = 'jarred@pivotaltimes.io'; // or rotate based on logic
       const template = EMAIL_TEMPLATES.sequenceA.initial;
 
       // Replace newlines with <br/> for HTML
@@ -50,8 +50,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
       console.log(`Sending Initial Outreach to ${email} from ${senderAccount}`);
       
-      // Uncomment to actually send:
-      await sendEmail(senderAccount, email, template.subject, htmlBody);
+      // 3. Send the email!
+      // Rotating sending accounts could go here. For now, use the primary domain.
+      await sendEmail('jarred@pivotaltimes.io', email, template.subject, htmlBody);
       
       // 5. Log to Database
       await logEmailSent(email, 'SequenceA_Initial');

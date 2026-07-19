@@ -47,7 +47,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     // Send the email to Jarred from the service account
     await sendEmail(
-      'hello@pivotaltimes.io', // Impersonate this sender
+      'jarred@pivotaltimes.io', // Impersonate this sender
       'jarred@pivotaltimes.io', // Destination email
       subject,
       htmlBody
