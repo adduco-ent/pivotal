@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { CONTACT_EMAIL, FORM_ENDPOINT } from '../lib/links'
+import { CONTACT_EMAIL } from '../lib/links'
 import { setScrollPaused } from '../lib/smoothScroll'
 import { supabase } from '../lib/supabase'
 
