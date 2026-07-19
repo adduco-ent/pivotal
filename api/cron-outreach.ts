@@ -14,8 +14,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    // 1. Fetch leads from Google Sheet (Assuming Columns A: Email, B: Status)
-    const rows = await getSheetData(SPREADSHEET_ID, 'Leads!A2:B');
+    // 1. Fetch leads from Google Sheet (First Name, Email, Status)
+    // Using 'A2:C' defaults to the first sheet automatically.
+    const rows = await getSheetData(SPREADSHEET_ID, 'A2:C');
     if (!rows || rows.length === 0) {
       return res.status(200).json({ status: 'completed', message: 'No leads found' });
     }
@@ -26,7 +27,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     for (let i = 0; i < rows.length; i++) {
       if (emailsProcessed >= 2) break; // Hard limit per cron tick (waterfall flow)
 
-      const [email, status] = rows[i];
+      const [firstName, email, status] = rows[i];
 
       // 2. Do Not Disturb checks
       if (!email || !email.includes('@')) continue;
