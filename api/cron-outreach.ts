@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { sendEmail, getSheetData } from './lib/googleApi';
-import { EMAIL_TEMPLATES } from './lib/emailTemplates';
-import { hasBeenContacted, logEmailSent } from './lib/db';
+import { sendEmail, getSheetData } from './lib/googleApi.js';
+import { EMAIL_TEMPLATES } from './lib/emailTemplates.js';
+import { hasBeenContacted, logEmailSent } from './lib/db.js';
 
 // This endpoint is triggered by Vercel Cron
 export default async function handler(req: VercelRequest, res: VercelResponse) {

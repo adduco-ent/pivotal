@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { sendEmail } from './lib/googleApi';
-import { db } from './lib/db';
+import { sendEmail } from './lib/googleApi.js';
+import { db } from './lib/db.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') {
