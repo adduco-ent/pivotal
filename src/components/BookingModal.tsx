@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { CONTACT_EMAIL } from '../lib/links'
 import { setScrollPaused } from '../lib/smoothScroll'
-import { supabase } from '../lib/supabase'
+
 
 interface BookingModalProps {
   isOpen: boolean
