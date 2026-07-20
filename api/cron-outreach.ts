@@ -6,7 +6,8 @@ import { hasBeenContacted, logEmailSent, getEmailsSentTodayCount } from './lib/d
 // Configuration
 const WARMUP_START_DATE = new Date('2026-07-19T00:00:00Z');
 
-const SENDERS = ['hello@pivotaltimes.io', 'jarred@pivotaltimes.io'];
+// Temporarily only using jarred@ while Google Workspace propagates the newly created hello@ account.
+const SENDERS = ['jarred@pivotaltimes.io'];
 
 function getDailyLimit(): number {
   const now = new Date();
