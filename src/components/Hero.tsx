@@ -73,7 +73,8 @@ export default function Hero({ entranceComplete }: HeroProps) {
       if (!window.matchMedia('(pointer: coarse)').matches) return
       
       const scrollY = window.scrollY
-      const maxScroll = window.innerHeight
+      // Multiply by 0.5 so they only have to scroll half a screen to complete the scrub
+      const maxScroll = window.innerHeight * 0.5
       const scrollProgress = Math.min(scrollY / maxScroll, 1)
       const next = scrollProgress * video.duration
       
