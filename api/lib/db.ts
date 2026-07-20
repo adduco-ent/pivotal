@@ -16,7 +16,7 @@ export async function hasBeenContacted(email: string): Promise<boolean> {
     .eq('email', email)
     .limit(1);
   if (error) console.error('Error checking contact status:', error);
-  return data && data.length > 0;
+  return (data !== null && data.length > 0);
 }
 
 export async function logEmailSent(email: string, sequenceId: string) {
