@@ -64,8 +64,10 @@ export default function Hero({ entranceComplete }: HeroProps) {
     }
 
     const onLoadedMetadata = () => {
-      video.pause()
-      video.currentTime = 0
+      if (!window.matchMedia('(pointer: coarse)').matches) {
+        video.pause()
+        video.currentTime = 0
+      }
     }
 
     video.addEventListener('loadedmetadata', onLoadedMetadata)
@@ -87,6 +89,8 @@ export default function Hero({ entranceComplete }: HeroProps) {
         src={HERO_VIDEO}
         muted
         playsInline
+        autoPlay
+        loop
         preload="auto"
         className="absolute inset-x-0 top-0 h-[56%] w-full object-cover object-[50%_25%] sm:inset-0 sm:h-full sm:object-center"
         style={{ transform: 'translateZ(0)' }}
