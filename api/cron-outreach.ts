@@ -6,8 +6,8 @@ import { hasBeenContacted, logEmailSent, getEmailsSentTodayCount } from './lib/d
 // Configuration
 const WARMUP_START_DATE = new Date('2026-07-19T00:00:00Z');
 
-// Temporarily only using jarred@ while Google Workspace propagates the newly created hello@ account.
-const SENDERS = ['jarred@pivotaltimes.io'];
+// Rotate between sender accounts
+const SENDERS = ['jarred@pivotaltimes.io', 'hello@pivotaltimes.io'];
 
 function getDailyLimit(): number {
   const now = new Date();
@@ -73,19 +73,30 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(200).json({ status: 'paused', reason: 'Outside business hours' });
     }
 
-    // 1. Warmup Throttle Check
-    const dailyLimit = getDailyLimit();
-    const emailsSentToday = await getEmailsSentTodayCount();
-    
-    if (emailsSentToday >= dailyLimit) {
-      console.log(`Daily limit reached (${emailsSentToday}/${dailyLimit}). Pausing until tomorrow.`);
-      return res.status(200).json({ status: 'throttled', emailsSentToday, dailyLimit });
-    }
-
     // 2. Fetch leads from Google Sheet (First Name, Email, Status, Notes)
     const rows = await getSheetData(SPREADSHEET_ID, 'A2:D');
     if (!rows || rows.length === 0) {
       return res.status(200).json({ status: 'completed', message: 'No leads found' });
+    }
+
+    // 1. Warmup Throttle Check
+    const dailyLimit = getDailyLimit();
+    
+    // Count emails sent today directly from the Google Sheets logs
+    // This makes the rate limit bulletproof even if the Supabase connection fails
+    const todayStr = new Date().toISOString().split('T')[0]; // e.g. '2026-07-20'
+    let emailsSentToday = 0;
+    for (const row of rows) {
+      const notes = row[3] || '';
+      const matches = notes.match(new RegExp(`sent at ${todayStr}`, 'g'));
+      if (matches) {
+        emailsSentToday += matches.length;
+      }
+    }
+    
+    if (emailsSentToday >= dailyLimit) {
+      console.log(`Daily limit reached (${emailsSentToday}/${dailyLimit}). Pausing until tomorrow.`);
+      return res.status(200).json({ status: 'throttled', emailsSentToday, dailyLimit });
     }
 
     let emailsProcessed = 0;
