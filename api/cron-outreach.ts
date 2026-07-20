@@ -32,7 +32,7 @@ function parseLastSent(notes: string): { step: number, sequence: SequenceType, d
   let lastState = null;
   
   // Parse the new v2 format
-  const regex = /\[Seq([ABC])_([123]) sent at (.*?)\]/g;
+  const regex = /\[Seq([ABC])_([123]) sent (?:from .*? )?at (.*?)\]/g;
   let match;
   while ((match = regex.exec(notes)) !== null) {
     const seq = match[1] as SequenceType;
@@ -88,7 +88,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     let emailsSentToday = 0;
     for (const row of rows) {
       const notes = row[3] || '';
-      const matches = notes.match(new RegExp(`sent at ${todayStr}`, 'g'));
+      const matches = notes.match(new RegExp(`sent (?:from .*? )?at ${todayStr}`, 'g'));
       if (matches) {
         emailsSentToday += matches.length;
       }
@@ -181,7 +181,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       await logEmailSent(email, `Seq${sequenceToUse}_${nextStepToSend}`);
       
       // 7. Write back to Google Sheets (Column D is Notes. Row is i + 2)
-      const newLog = `[Seq${sequenceToUse}_${nextStepToSend} sent at ${now.toISOString()}]`;
+      const newLog = `[Seq${sequenceToUse}_${nextStepToSend} sent from ${senderAccount} at ${now.toISOString()}]`;
       const combinedNotes = notes ? `${notes}\n${newLog}` : newLog;
       await updateSheetRow(SPREADSHEET_ID, `D${i + 2}`, [[combinedNotes]]);
       
