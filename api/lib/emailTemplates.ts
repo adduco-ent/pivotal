@@ -17,8 +17,8 @@ The ad account looks healthy. The funnel is where the money quietly walks out.
 
 Worth a look at your own numbers post-click. Most founders have never mapped it.
 
-Jarred
-<a href="https://pivotaltimes.io">pivotaltimes.io</a>`
+Jarred Letofsky
+pivotaltimes.io`
     },
     email2: {
       subject: 'Re: after the click',
@@ -30,8 +30,8 @@ When growth stalls, the instinct is to raise ad spend. But pouring more traffic 
 
 We seal the leaks first — the exact process is at the link below if you want to see how we map it.
 
-Jarred
-<a href="https://pivotaltimes.io">pivotaltimes.io</a>`
+Jarred Letofsky
+pivotaltimes.io`
     },
     email3: {
       subject: 'timing',
@@ -41,8 +41,8 @@ Timing's clearly off, so I'll leave it here.
 
 If conversion ever becomes the bottleneck — it usually does before ad costs stop climbing — the full breakdown of how we find and seal funnel leaks is below.
 
-Jarred
-<a href="https://pivotaltimes.io">pivotaltimes.io</a>`
+Jarred Letofsky
+pivotaltimes.io`
     }
   },
   sequenceB: {
@@ -56,8 +56,8 @@ The result is ad spend working harder to push buyers through a funnel that's dro
 
 If you haven't stress-tested yours since traffic grew, it's probably happening to you too.
 
-Jarred
-<a href="https://pivotaltimes.io">pivotaltimes.io</a>`
+Jarred Letofsky
+pivotaltimes.io`
     },
     email2: {
       subject: 'Re: backend vs. front end',
@@ -69,8 +69,8 @@ Most of the brands we work with came to us wanting more traffic. What they actua
 
 How we map the drop-off points is laid out at the link below.
 
-Jarred
-<a href="https://pivotaltimes.io">pivotaltimes.io</a>`
+Jarred Letofsky
+pivotaltimes.io`
     },
     email3: {
       subject: 'closing the loop',
@@ -80,8 +80,8 @@ Assuming this isn't a priority right now — no problem, I'll close the loop.
 
 If you ever want to know exactly where revenue is slipping out of your funnel, you know where to find us.
 
-Jarred
-<a href="https://pivotaltimes.io">pivotaltimes.io</a>`
+Jarred Letofsky
+pivotaltimes.io`
     }
   },
   sequenceC: {
@@ -93,8 +93,8 @@ Quick math most founders never run: lifting funnel conversion from 2% to 2.5% is
 
 Almost everyone defaults to buying the traffic.
 
-Jarred
-<a href="https://pivotaltimes.io">pivotaltimes.io</a>`
+Jarred Letofsky
+pivotaltimes.io`
     },
     email2: {
       subject: 'Re: cheaper than more ads',
@@ -106,8 +106,8 @@ The conversion lift is almost always sitting in places nobody owns — the step 
 
 Finding those is literally all we do. Process is at the link below.
 
-Jarred
-<a href="https://pivotaltimes.io">pivotaltimes.io</a>`
+Jarred Letofsky
+pivotaltimes.io`
     },
     email3: {
       subject: 'last one',
@@ -117,8 +117,8 @@ I'll stop here.
 
 If ad costs keep climbing and margins keep thinning, the fix usually isn't more spend — it's the funnel. When you're ready to map yours, the link below is where to start.
 
-Jarred
-<a href="https://pivotaltimes.io">pivotaltimes.io</a>`
+Jarred Letofsky
+pivotaltimes.io`
     }
   }
 };
