@@ -14,10 +14,45 @@ type QueueItem = {
 export default function ContentReview() {
   const [items, setItems] = useState<QueueItem[]>([])
   const [loading, setLoading] = useState(true)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [password, setPassword] = useState('')
+  const [pin, setPin] = useState('')
+  const [errorMsg, setErrorMsg] = useState('')
 
   useEffect(() => {
-    fetchQueue()
+    const checkAuth = () => {
+      const authData = sessionStorage.getItem('adminAuth')
+      if (authData) {
+        const { timestamp } = JSON.parse(authData)
+        // Check if 30 minutes (1800000 ms) have passed
+        if (Date.now() - timestamp < 1800000) {
+          setIsAuthenticated(true)
+          return true
+        } else {
+          sessionStorage.removeItem('adminAuth')
+        }
+      }
+      return false
+    }
+
+    if (checkAuth()) {
+      fetchQueue()
+    } else {
+      setLoading(false)
+    }
   }, [])
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (password === 'Pivotalx2026!' && pin === '6193') {
+      sessionStorage.setItem('adminAuth', JSON.stringify({ timestamp: Date.now() }))
+      setIsAuthenticated(true)
+      setErrorMsg('')
+      fetchQueue()
+    } else {
+      setErrorMsg('Invalid password or PIN.')
+    }
+  }
 
   async function fetchQueue() {
     setLoading(true)
@@ -45,6 +80,43 @@ export default function ContentReview() {
     }
   }
 
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-zinc-950 p-8 flex flex-col justify-center items-center text-white font-mono text-sm">
+        <div className="max-w-md w-full bg-zinc-900/50 border border-zinc-800 p-8 rounded">
+          <h1 className="text-xl mb-6 tracking-tight text-center">Admin Access</h1>
+          <form onSubmit={handleLogin} className="flex flex-col gap-4">
+            <div>
+              <label className="block text-zinc-500 mb-1">Password</label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full bg-zinc-950 border border-zinc-800 rounded p-2 text-white focus:outline-none focus:border-zinc-500"
+              />
+            </div>
+            <div>
+              <label className="block text-zinc-500 mb-1">PIN</label>
+              <input
+                type="password"
+                value={pin}
+                onChange={(e) => setPin(e.target.value)}
+                className="w-full bg-zinc-950 border border-zinc-800 rounded p-2 text-white focus:outline-none focus:border-zinc-500"
+              />
+            </div>
+            {errorMsg && <p className="text-red-400 text-xs mt-2">{errorMsg}</p>}
+            <button
+              type="submit"
+              className="mt-4 w-full bg-white text-black font-bold py-2 rounded hover:bg-zinc-200 transition-colors"
+            >
+              Enter
+            </button>
+          </form>
+        </div>
+      </div>
+    )
+  }
+
   if (loading) {
     return (
       <div className="min-h-screen bg-zinc-950 p-8 pt-24 text-white flex justify-center items-center">
@@ -59,8 +131,21 @@ export default function ContentReview() {
   return (
     <div className="min-h-screen bg-zinc-950 p-4 sm:p-8 pt-24 text-white font-mono text-sm">
       <div className="max-w-5xl mx-auto">
-        <h1 className="text-2xl mb-2 tracking-tight">Social Media Command Center</h1>
-        <p className="text-zinc-500 mb-8">Review and download Higgsfield-generated cinematic content.</p>
+        <div className="flex justify-between items-end mb-8">
+          <div>
+            <h1 className="text-2xl mb-2 tracking-tight">Social Media Command Center</h1>
+            <p className="text-zinc-500">Review and download Higgsfield-generated cinematic content.</p>
+          </div>
+          <button
+            onClick={() => {
+              sessionStorage.removeItem('adminAuth')
+              setIsAuthenticated(false)
+            }}
+            className="text-zinc-500 hover:text-white underline text-xs"
+          >
+            Log Out
+          </button>
+        </div>
 
         <div className="mb-12">
           <h2 className="text-xl mb-4 pb-2 border-b border-zinc-800">Pending Review ({pending.length})</h2>
