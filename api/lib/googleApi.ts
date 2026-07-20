@@ -57,7 +57,7 @@ export async function sendEmail(fromEmail: string, toEmail: string, subject: str
 }
 
 export async function getSheetData(spreadsheetId: string, range: string) {
-  const auth = getAuthClient(process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL || '');
+  const auth = getAuthClient('jarred@pivotaltimes.io');
   const sheets = google.sheets({ version: 'v4', auth });
   
   const response = await sheets.spreadsheets.values.get({
@@ -69,7 +69,7 @@ export async function getSheetData(spreadsheetId: string, range: string) {
 }
 
 export async function updateSheetRow(spreadsheetId: string, range: string, values: any[][]) {
-  const auth = getAuthClient(process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL || '');
+  const auth = getAuthClient('jarred@pivotaltimes.io');
   const sheets = google.sheets({ version: 'v4', auth });
   
   const response = await sheets.spreadsheets.values.update({
