@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { sendEmail, getSheetData, updateSheetRow } from './lib/googleApi.js';
-import { EMAIL_TEMPLATES } from './lib/emailTemplates.js';
+import { EMAIL_TEMPLATES, getGreeting } from './lib/emailTemplates.js';
 import { hasBeenContacted, logEmailSent, getEmailsSentTodayCount } from './lib/db.js';
 
 // Configuration
@@ -22,6 +22,38 @@ function getDailyLimit(): number {
   
   // Multiply the base limit by the number of active sender accounts
   return baseLimit * SENDERS.length;
+}
+
+type SequenceType = 'A' | 'B' | 'C';
+
+function parseLastSent(notes: string): { step: number, sequence: SequenceType, date: Date } | null {
+  if (!notes) return null;
+  
+  let lastState = null;
+  
+  // Parse the new v2 format
+  const regex = /\[Seq([ABC])_([123]) sent at (.*?)\]/g;
+  let match;
+  while ((match = regex.exec(notes)) !== null) {
+    const seq = match[1] as SequenceType;
+    const step = parseInt(match[2], 10);
+    const date = new Date(match[3]);
+    if (!lastState || step > lastState.step) {
+      lastState = { step, sequence: seq, date };
+    }
+  }
+  
+  if (lastState) return lastState;
+  
+  // Backwards compatibility for the old v1 format
+  const oldRegex = /\[SequenceA_Initial sent from .* at (.*?) EST\]/g;
+  while ((match = oldRegex.exec(notes)) !== null) {
+    const dateStr = match[1]; 
+    const date = new Date(dateStr);
+    lastState = { step: 1, sequence: 'A' as SequenceType, date };
+  }
+  
+  return lastState;
 }
 
 // This endpoint is triggered by Vercel Cron
@@ -62,33 +94,75 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       if (!email || !email.includes('@')) continue;
       const skipStatuses = ['dnd', 'replied', 'in convo', 'sent'];
       if (status && skipStatuses.includes(status.toLowerCase())) continue;
-      // Skip if Notes column indicates it was already processed for this specific sequence
-      // (This prevents double-sending the same sequence, but allows other sequence notes)
-      if (notes && notes.includes('[SequenceA_Initial sent')) continue;
 
-      // 4. Deduplication via Supabase
-      const contacted = await hasBeenContacted(email);
-      if (contacted) {
-        console.log(`Skipping ${email}: Already in Supabase database.`);
-        continue;
+      // 4. State Machine Logic
+      const state = parseLastSent(notes);
+      
+      let nextStepToSend = 1;
+      let sequenceToUse: SequenceType;
+      
+      const now = new Date();
+      
+      if (!state) {
+        // No emails sent yet. Assign a random sequence!
+        const seqs: SequenceType[] = ['A', 'B', 'C'];
+        sequenceToUse = seqs[Math.floor(Math.random() * seqs.length)];
+        nextStepToSend = 1;
+        
+        // Deduplication check for brand new leads (only check Supabase on step 1)
+        const contacted = await hasBeenContacted(email);
+        if (contacted) {
+          console.log(`Skipping ${email}: Already in Supabase database.`);
+          continue;
+        }
+      } else {
+        // They have received at least one email
+        sequenceToUse = state.sequence;
+        
+        if (state.step === 1) {
+          // Check if 72 hours have passed since Email 1
+          const hoursElapsed = (now.getTime() - state.date.getTime()) / (1000 * 60 * 60);
+          if (hoursElapsed < 72) continue; // Not time yet
+          nextStepToSend = 2;
+        } 
+        else if (state.step === 2) {
+          // Check if 96 hours (4 days) have passed since Email 2
+          const hoursElapsed = (now.getTime() - state.date.getTime()) / (1000 * 60 * 60);
+          if (hoursElapsed < 96) continue; // Not time yet
+          nextStepToSend = 3;
+        }
+        else {
+          // Step 3 or higher. Sequence is complete!
+          continue; 
+        }
       }
 
       // 5. Send Email
-      // Randomly pick an account from the SENDERS array to distribute the load
-      const senderAccount = SENDERS[Math.floor(Math.random() * SENDERS.length)];
-      const template = EMAIL_TEMPLATES.sequenceA.initial;
-      const htmlBody = template.body.replace(/\n/g, '<br/>');
+      // Get the correct template based on sequence and step
+      const seqMap = {
+        'A': EMAIL_TEMPLATES.sequenceA,
+        'B': EMAIL_TEMPLATES.sequenceB,
+        'C': EMAIL_TEMPLATES.sequenceC
+      };
+      
+      const stepKey = `email${nextStepToSend}` as 'email1'|'email2'|'email3';
+      const template = seqMap[sequenceToUse][stepKey];
+      
+      // Inject variables
+      const greeting = getGreeting(firstName);
+      const rawBody = template.body.replace('{{GREETING}}', greeting);
+      const htmlBody = rawBody.replace(/\n/g, '<br/>');
 
-      console.log(`Sending Initial Outreach to ${email} from ${senderAccount}`);
+      const senderAccount = SENDERS[Math.floor(Math.random() * SENDERS.length)];
+
+      console.log(`Sending Seq${sequenceToUse}_${nextStepToSend} to ${email} from ${senderAccount}`);
       await sendEmail(senderAccount, email, template.subject, htmlBody);
       
       // 6. Log to Database
-      await logEmailSent(email, 'SequenceA_Initial');
+      await logEmailSent(email, `Seq${sequenceToUse}_${nextStepToSend}`);
       
       // 7. Write back to Google Sheets (Column D is Notes. Row is i + 2)
-      // We append to the existing notes so we never overwrite old data
-      const timestamp = new Date().toLocaleString('en-US', { timeZone: 'America/New_York' });
-      const newLog = `[SequenceA_Initial sent from ${senderAccount} at ${timestamp} EST]`;
+      const newLog = `[Seq${sequenceToUse}_${nextStepToSend} sent at ${now.toISOString()}]`;
       const combinedNotes = notes ? `${notes}\n${newLog}` : newLog;
       await updateSheetRow(SPREADSHEET_ID, `D${i + 2}`, [[combinedNotes]]);
       

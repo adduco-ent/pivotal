@@ -1,57 +1,121 @@
+export function getGreeting(firstName?: string | null): string {
+  if (firstName && firstName.trim() !== '') {
+    return `Hey ${firstName.trim()},`;
+  }
+  return 'Hey,';
+}
+
 export const EMAIL_TEMPLATES = {
   sequenceA: {
-    initial: {
-      subject: 'marketing funnels',
-      body: `Hey,
+    email1: {
+      subject: 'after the click',
+      body: `{{GREETING}}
 
-We spend a lot of time analyzing how companies in your space structure their marketing funnels. 
+Most brands we audit are losing 20–30% of their buyers *after* the click — checkout friction, dead-end thank-you pages, follow-ups that never fire.
 
-Most brands are quietly leaking revenue post click and do not even realize it until they finally map it out.
+The ad account looks healthy. The funnel is where the money quietly walks out.
 
-Just an observation from our side as it is a bottleneck we see all the time. 
+Worth a look at your own numbers post-click. Most founders have never mapped it.
 
 Jarred
 <a href="https://pivotaltimes.io">pivotaltimes.io</a>`
     },
-    followUp: {
-      subject: 'Re: marketing funnels',
-      body: `Hey, 
+    email2: {
+      subject: 'Re: after the click',
+      body: `{{GREETING}}
 
-Just bubbling this up. 
+Bubbling this up.
 
-A lot of founders assume they need to spend more on ads to scale but plugging the hidden leaks in the backend usually yields much better margins.
+When growth stalls, the instinct is to raise ad spend. But pouring more traffic into a leaking funnel just means renting revenue at worse margins every month.
 
-If you suspect your flow might be leaving money on the table I laid out our exact process for fixing it in my signature below.
+We seal the leaks first — the exact process is at the link below if you want to see how we map it.
+
+Jarred
+<a href="https://pivotaltimes.io">pivotaltimes.io</a>`
+    },
+    email3: {
+      subject: 'timing',
+      body: `{{GREETING}}
+
+Timing's clearly off, so I'll leave it here.
+
+If conversion ever becomes the bottleneck — it usually does before ad costs stop climbing — the full breakdown of how we find and seal funnel leaks is below.
 
 Jarred
 <a href="https://pivotaltimes.io">pivotaltimes.io</a>`
     }
   },
   sequenceB: {
-    initial: {
-      subject: 'backend architecture',
-      body: `Hey,
+    email1: {
+      subject: 'backend vs. front end',
+      body: `{{GREETING}}
 
-We noticed that as companies scale their backend architecture rarely keeps pace with their top of funnel traffic. 
+A pattern we see constantly: top-of-funnel scales, the backend doesn't. Traffic doubles, but the pages, offers, and follow-up sequences underneath were built for a company half the size.
 
-The result is usually wasted ad spend on a funnel that is slowly leaking conversions. 
+The result is ad spend working harder to push buyers through a funnel that's dropping more of them than it did a year ago.
 
-We specialize in mapping out those hidden leaks so you do not have to keep buying more traffic just to grow.
-
-Might be worth taking a look to see if this applies to your current setup.
+If you haven't stress-tested yours since traffic grew, it's probably happening to you too.
 
 Jarred
 <a href="https://pivotaltimes.io">pivotaltimes.io</a>`
     },
-    followUp: {
-      subject: 'Re: backend architecture',
-      body: `Hey,
+    email2: {
+      subject: 'Re: backend vs. front end',
+      body: `{{GREETING}}
 
-Just a quick follow up. 
+Quick follow-up.
 
-We have helped quite a few brands shift their focus from buying more traffic to simply plugging the drop off points they already have. 
+Most of the brands we work with came to us wanting more traffic. What they actually needed was to stop losing the traffic they'd already paid for — same spend, meaningfully better margins.
 
-If optimizing your conversion flow is a priority right now you can see exactly how we map it out via the link below.
+How we map the drop-off points is laid out at the link below.
+
+Jarred
+<a href="https://pivotaltimes.io">pivotaltimes.io</a>`
+    },
+    email3: {
+      subject: 'closing the loop',
+      body: `{{GREETING}}
+
+Assuming this isn't a priority right now — no problem, I'll close the loop.
+
+If you ever want to know exactly where revenue is slipping out of your funnel, you know where to find us.
+
+Jarred
+<a href="https://pivotaltimes.io">pivotaltimes.io</a>`
+    }
+  },
+  sequenceC: {
+    email1: {
+      subject: 'cheaper than more ads',
+      body: `{{GREETING}}
+
+Quick math most founders never run: lifting funnel conversion from 2% to 2.5% is the same revenue as buying 25% more traffic — except one costs a fix and the other costs that much more ad spend, forever.
+
+Almost everyone defaults to buying the traffic.
+
+Jarred
+<a href="https://pivotaltimes.io">pivotaltimes.io</a>`
+    },
+    email2: {
+      subject: 'Re: cheaper than more ads',
+      body: `{{GREETING}}
+
+One more on this.
+
+The conversion lift is almost always sitting in places nobody owns — the step between opt-in and offer, the abandoned checkout that gets one weak email, the mobile page nobody's tested since launch.
+
+Finding those is literally all we do. Process is at the link below.
+
+Jarred
+<a href="https://pivotaltimes.io">pivotaltimes.io</a>`
+    },
+    email3: {
+      subject: 'last one',
+      body: `{{GREETING}}
+
+I'll stop here.
+
+If ad costs keep climbing and margins keep thinning, the fix usually isn't more spend — it's the funnel. When you're ready to map yours, the link below is where to start.
 
 Jarred
 <a href="https://pivotaltimes.io">pivotaltimes.io</a>`
