@@ -65,6 +65,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
+    // 0. Enforce Business Hours (9am - 6pm Central Time)
+    const now = new Date();
+    const cstHour = parseInt(now.toLocaleString('en-US', { timeZone: 'America/Chicago', hour: 'numeric', hourCycle: 'h23' }));
+    if (cstHour < 9 || cstHour >= 18) {
+      console.log(`Outside of business hours (9am - 6pm CST). Current CST hour: ${cstHour}`);
+      return res.status(200).json({ status: 'paused', reason: 'Outside business hours' });
+    }
+
     // 1. Warmup Throttle Check
     const dailyLimit = getDailyLimit();
     const emailsSentToday = await getEmailsSentTodayCount();
