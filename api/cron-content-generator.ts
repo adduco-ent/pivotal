@@ -6,11 +6,11 @@ const supabaseUrl = process.env.VITE_SUPABASE_URL || '';
 const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY || '';
 const db = (supabaseUrl && supabaseKey) ? createClient(supabaseUrl, supabaseKey) : null;
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+// OpenAI instantiated later to prevent crash on file load if env var is missing
 
 const HIGGSFIELD_API_KEY = process.env.HIGGSFIELD_API_KEY;
+
+export const maxDuration = 60; // Max allowed for Vercel Hobby tier (prevent 10s timeout)
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (!db) {
@@ -30,6 +30,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const aspectRatio = isPost ? '4:5' : '9:16';
 
   try {
+    const openai = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    });
+
     // 2. Generate Cinematic Prompt via GPT-4o
     const completion = await openai.chat.completions.create({
       model: "gpt-4o",
