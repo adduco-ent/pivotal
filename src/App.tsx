@@ -5,6 +5,7 @@ import { BookingProvider } from './lib/booking'
 import LandingPage from './components/LandingPage'
 import TermsPage from './components/legal/TermsPage'
 import PrivacyPage from './components/legal/PrivacyPage'
+import ContentReview from './components/ContentReview'
 import Grain from './components/Grain'
 
 export default function App() {
@@ -18,6 +19,7 @@ export default function App() {
   let page
   if (path === '/terms') page = <TermsPage />
   else if (path === '/privacy') page = <PrivacyPage />
+  else if (path === '/admin/content') page = <ContentReview />
   else page = <LandingPage />
 
   return (
