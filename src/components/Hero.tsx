@@ -64,21 +64,34 @@ export default function Hero({ entranceComplete }: HeroProps) {
     }
 
     const onLoadedMetadata = () => {
-      if (!window.matchMedia('(pointer: coarse)').matches) {
-        video.pause()
-        video.currentTime = 0
-      }
+      video.pause()
+      video.currentTime = 0
+    }
+
+    const onScroll = () => {
+      if (!visibleRef.current || !video.duration) return
+      if (!window.matchMedia('(pointer: coarse)').matches) return
+      
+      const scrollY = window.scrollY
+      const maxScroll = window.innerHeight
+      const scrollProgress = Math.min(scrollY / maxScroll, 1)
+      const next = scrollProgress * video.duration
+      
+      targetTimeRef.current = Math.min(Math.max(next, 0), video.duration - 0.05)
+      requestSeek()
     }
 
     video.addEventListener('loadedmetadata', onLoadedMetadata)
     video.addEventListener('seeked', onSeeked)
     window.addEventListener('mousemove', onMouseMove)
+    window.addEventListener('scroll', onScroll, { passive: true })
 
     return () => {
       observer.disconnect()
       video.removeEventListener('loadedmetadata', onLoadedMetadata)
       video.removeEventListener('seeked', onSeeked)
       window.removeEventListener('mousemove', onMouseMove)
+      window.removeEventListener('scroll', onScroll)
     }
   }, [])
 
