@@ -78,7 +78,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       
       // 7. Write back to Google Sheets (Column D is Notes. Row is i + 2)
       const timestamp = new Date().toLocaleString('en-US', { timeZone: 'America/New_York' });
-      const logMessage = `[Sent from ${senderAccount} at ${timestamp} EST]`;
+      const logMessage = `[SequenceA_Initial sent from ${senderAccount} at ${timestamp} EST]`;
       await updateSheetRow(SPREADSHEET_ID, `D${i + 2}`, [[logMessage]]);
       
       emailsProcessed++;
