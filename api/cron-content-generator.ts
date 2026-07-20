@@ -77,7 +77,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       throw new Error(`Higgsfield API Error: ${err}`);
     }
 
-    const higgsData = await higgsResponse.json();
+    const higgsData = (await higgsResponse.json()) as any;
     const generationId = higgsData.id;
 
     // 4. Queue it in Supabase as "pending_review"
