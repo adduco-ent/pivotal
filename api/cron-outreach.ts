@@ -66,7 +66,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
 
       // 5. Send Email
-      const senderAccount = 'jarred@pivotaltimes.io'; // Change to hello@ later
+      const senderAccount = 'hello@pivotaltimes.io';
       const template = EMAIL_TEMPLATES.sequenceA.initial;
       const htmlBody = template.body.replace(/\n/g, '<br/>');
 

@@ -81,7 +81,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     try {
       await sendEmail(
-        'jarred@pivotaltimes.io', // Switch to hello@pivotaltimes.io once created
+        'hello@pivotaltimes.io', // Use the new dedicated hello account
         email, // Send TO the lead
         autoResponderSubject,
         autoResponderBody
