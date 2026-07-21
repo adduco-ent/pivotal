@@ -175,17 +175,23 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const senderAccount = SENDERS[Math.floor(Math.random() * SENDERS.length)];
 
       console.log(`Sending Seq${sequenceToUse}_${nextStepToSend} to ${email} from ${senderAccount}`);
-      await sendEmail(senderAccount, email, template.subject, htmlBody);
-      
-      // 6. Log to Database
-      await logEmailSent(email, `Seq${sequenceToUse}_${nextStepToSend}`);
-      
-      // 7. Write back to Google Sheets (Column D is Notes. Row is i + 2)
-      const newLog = `[Seq${sequenceToUse}_${nextStepToSend} sent from ${senderAccount} at ${now.toISOString()}]`;
-      const combinedNotes = notes ? `${notes}\n${newLog}` : newLog;
-      await updateSheetRow(SPREADSHEET_ID, `D${i + 2}`, [[combinedNotes]]);
-      
-      emailsProcessed++;
+      try {
+        await sendEmail(senderAccount, email, template.subject, htmlBody);
+        
+        // 6. Log to Database
+        await logEmailSent(email, `Seq${sequenceToUse}_${nextStepToSend}`);
+        
+        // 7. Write back to Google Sheets (Column D is Notes. Row is i + 2)
+        const newLog = `[Seq${sequenceToUse}_${nextStepToSend} sent from ${senderAccount} at ${now.toISOString()}]`;
+        const combinedNotes = notes ? `${notes}\n${newLog}` : newLog;
+        await updateSheetRow(SPREADSHEET_ID, `D${i + 2}`, [[combinedNotes]]);
+        
+        emailsProcessed++;
+      } catch (err: any) {
+        console.error(`Failed to send email to ${email} from ${senderAccount}. Error:`, err.message);
+        // Continue to the next lead so the entire engine doesn't crash
+        continue;
+      }
     }
 
     return res.status(200).json({ success: true, processed: emailsProcessed, limit: dailyLimit });
