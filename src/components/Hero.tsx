@@ -45,22 +45,7 @@ export default function Hero({ entranceComplete }: HeroProps) {
       }
     }
 
-    const isMobile = window.matchMedia('(pointer: coarse)').matches;
-
-    const onLoadedMetadata = () => {
-      if (!isMobile) {
-        // On desktop, pause so mouse movement can scrub the frames
-        video.pause();
-        video.currentTime = 0;
-      } else {
-        // On mobile, ensure it plays smoothly as a background loop
-        // Never call video.pause() on mobile, as iOS Safari forces a play button overlay when paused.
-        video.play().catch(() => {});
-      }
-    }
-
     const onMouseMove = (e: MouseEvent) => {
-      if (isMobile) return;
       if (!visibleRef.current) {
         lastXRef.current = e.clientX
         return
@@ -78,17 +63,36 @@ export default function Hero({ entranceComplete }: HeroProps) {
       requestSeek()
     }
 
+    const onLoadedMetadata = () => {
+      video.pause()
+      video.currentTime = 0
+    }
+
+    const onScroll = () => {
+      if (!visibleRef.current || !video.duration) return
+      if (!window.matchMedia('(pointer: coarse)').matches) return
+      
+      const scrollY = window.scrollY
+      // Multiply by 0.5 so they only have to scroll half a screen to complete the scrub
+      const maxScroll = window.innerHeight * 0.5
+      const scrollProgress = Math.min(scrollY / maxScroll, 1)
+      const next = scrollProgress * video.duration
+      
+      targetTimeRef.current = Math.min(Math.max(next, 0), video.duration - 0.05)
+      requestSeek()
+    }
+
     video.addEventListener('loadedmetadata', onLoadedMetadata)
     video.addEventListener('seeked', onSeeked)
-    if (!isMobile) {
-      window.addEventListener('mousemove', onMouseMove)
-    }
+    window.addEventListener('mousemove', onMouseMove)
+    window.addEventListener('scroll', onScroll, { passive: true })
 
     return () => {
       observer.disconnect()
       video.removeEventListener('loadedmetadata', onLoadedMetadata)
       video.removeEventListener('seeked', onSeeked)
       window.removeEventListener('mousemove', onMouseMove)
+      window.removeEventListener('scroll', onScroll)
     }
   }, [])
 
@@ -102,7 +106,7 @@ export default function Hero({ entranceComplete }: HeroProps) {
         autoPlay
         loop
         preload="auto"
-        className="absolute inset-x-0 top-0 h-[56%] w-full object-cover object-[50%_25%] sm:inset-0 sm:h-full sm:object-center pointer-events-none"
+        className="absolute inset-x-0 top-0 h-[56%] w-full object-cover object-[50%_25%] sm:inset-0 sm:h-full sm:object-center"
         style={{ transform: 'translateZ(0)' }}
       />
 
