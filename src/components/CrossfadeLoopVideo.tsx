@@ -94,7 +94,6 @@ export default function CrossfadeLoopVideo({
     <div ref={wrapRef} className={className}>
       <video
         src={src}
-        autoPlay
         muted
         playsInline
         preload="auto"
@@ -103,7 +102,6 @@ export default function CrossfadeLoopVideo({
       />
       <video
         src={src}
-        autoPlay
         muted
         playsInline
         preload="auto"
