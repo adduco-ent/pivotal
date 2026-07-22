@@ -78,6 +78,14 @@ export default function CrossfadeLoopVideo({
 
     const interval = setInterval(tick, 80)
 
+    // Pre-warm video loading on very first user interaction anywhere on page
+    const warmUp = () => {
+      a.load();
+      b.load();
+    };
+    window.addEventListener('touchstart', warmUp, { once: true });
+    window.addEventListener('scroll', warmUp, { once: true });
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         visible = entry.isIntersecting
@@ -87,7 +95,7 @@ export default function CrossfadeLoopVideo({
           b.pause()
         }
       },
-      { rootMargin: '200px' },
+      { rootMargin: '800px' },
     )
     observer.observe(wrap)
 

@@ -52,13 +52,22 @@ export default function AutoVideo({
       }
     }
 
+    // Pre-warm video loading on very first user interaction anywhere on page
+    const warmUp = () => {
+      if (video.paused) {
+        video.load();
+      }
+    };
+    window.addEventListener('touchstart', warmUp, { once: true });
+    window.addEventListener('scroll', warmUp, { once: true });
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         visible = entry.isIntersecting
         if (visible) play()
         else video.pause()
       },
-      { rootMargin: '200px' },
+      { rootMargin: '800px' },
     )
     observer.observe(video)
     video.addEventListener('canplay', play)
