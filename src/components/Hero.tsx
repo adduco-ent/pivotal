@@ -68,36 +68,28 @@ export default function Hero({ entranceComplete }: HeroProps) {
       video.currentTime = 0
     }
 
-    const onScroll = () => {
-      if (!visibleRef.current || !video.duration) return
-      if (!window.matchMedia('(pointer: coarse)').matches) return
-      
-      const scrollY = window.scrollY
-      // Multiply by 0.5 so they only have to scroll half a screen to complete the scrub
-      const maxScroll = window.innerHeight * 0.5
-      const scrollProgress = Math.min(scrollY / maxScroll, 1)
-      const next = scrollProgress * video.duration
-      
-      targetTimeRef.current = Math.min(Math.max(next, 0), video.duration - 0.05)
-      requestSeek()
-    }
-
     video.addEventListener('loadedmetadata', onLoadedMetadata)
     video.addEventListener('seeked', onSeeked)
     window.addEventListener('mousemove', onMouseMove)
-    window.addEventListener('scroll', onScroll, { passive: true })
 
     return () => {
       observer.disconnect()
       video.removeEventListener('loadedmetadata', onLoadedMetadata)
       video.removeEventListener('seeked', onSeeked)
       window.removeEventListener('mousemove', onMouseMove)
-      window.removeEventListener('scroll', onScroll)
     }
   }, [])
 
   return (
     <section className="relative h-screen h-[100dvh] overflow-hidden">
+      {/* Mobile: High-res static image frame (completely avoids video tags & play buttons on iOS) */}
+      <img
+        src="/hero-llama.jpg"
+        alt="PivotalX Hero"
+        className="absolute inset-x-0 top-0 h-[56%] w-full object-cover object-[50%_25%] sm:hidden pointer-events-none"
+      />
+
+      {/* Desktop: Interactive video driven by cursor movement */}
       <video
         ref={videoRef}
         src={HERO_VIDEO}
@@ -106,7 +98,7 @@ export default function Hero({ entranceComplete }: HeroProps) {
         autoPlay
         loop
         preload="auto"
-        className="absolute inset-x-0 top-0 h-[56%] w-full object-cover object-[50%_25%] sm:inset-0 sm:h-full sm:object-center"
+        className="hidden sm:block absolute inset-0 h-full w-full object-cover object-center pointer-events-none"
         style={{ transform: 'translateZ(0)' }}
       />
 
