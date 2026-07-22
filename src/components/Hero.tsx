@@ -64,8 +64,22 @@ export default function Hero({ entranceComplete }: HeroProps) {
     }
 
     const onLoadedMetadata = () => {
-      video.pause()
-      video.currentTime = 0
+      // Force iOS to fully initialize the media engine before pausing
+      // This prevents the giant native play button from appearing
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          video.pause();
+          video.currentTime = 0;
+        }).catch(() => {
+          // If low power mode blocks autoplay, just pause
+          video.pause();
+          video.currentTime = 0;
+        });
+      } else {
+        video.pause();
+        video.currentTime = 0;
+      }
     }
 
     const onScroll = () => {
