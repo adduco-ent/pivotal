@@ -88,6 +88,7 @@ export default function AutoVideo({
     <video
       ref={ref}
       src={src}
+      autoPlay
       muted
       loop
       playsInline
