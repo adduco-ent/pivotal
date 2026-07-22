@@ -106,7 +106,7 @@ export default function Hero({ entranceComplete }: HeroProps) {
         autoPlay
         loop
         preload="auto"
-        className="absolute inset-x-0 top-0 h-[56%] w-full object-cover object-[50%_25%] sm:inset-0 sm:h-full sm:object-center"
+        className="absolute inset-x-0 top-0 h-[56%] w-full object-cover object-[50%_25%] sm:inset-0 sm:h-full sm:object-center pointer-events-none"
         style={{ transform: 'translateZ(0)' }}
       />
 
