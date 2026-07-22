@@ -45,7 +45,22 @@ export default function Hero({ entranceComplete }: HeroProps) {
       }
     }
 
+    const isMobile = window.matchMedia('(pointer: coarse)').matches;
+
+    const onLoadedMetadata = () => {
+      if (!isMobile) {
+        // On desktop, pause so mouse movement can scrub the frames
+        video.pause();
+        video.currentTime = 0;
+      } else {
+        // On mobile, ensure it plays smoothly as a background loop
+        // Never call video.pause() on mobile, as iOS Safari forces a play button overlay when paused.
+        video.play().catch(() => {});
+      }
+    }
+
     const onMouseMove = (e: MouseEvent) => {
+      if (isMobile) return;
       if (!visibleRef.current) {
         lastXRef.current = e.clientX
         return
@@ -63,50 +78,17 @@ export default function Hero({ entranceComplete }: HeroProps) {
       requestSeek()
     }
 
-    const onLoadedMetadata = () => {
-      // Force iOS to fully initialize the media engine before pausing
-      // This prevents the giant native play button from appearing
-      const playPromise = video.play();
-      if (playPromise !== undefined) {
-        playPromise.then(() => {
-          video.pause();
-          video.currentTime = 0;
-        }).catch(() => {
-          // If low power mode blocks autoplay, just pause
-          video.pause();
-          video.currentTime = 0;
-        });
-      } else {
-        video.pause();
-        video.currentTime = 0;
-      }
-    }
-
-    const onScroll = () => {
-      if (!visibleRef.current || !video.duration) return
-      if (!window.matchMedia('(pointer: coarse)').matches) return
-      
-      const scrollY = window.scrollY
-      // Multiply by 0.5 so they only have to scroll half a screen to complete the scrub
-      const maxScroll = window.innerHeight * 0.5
-      const scrollProgress = Math.min(scrollY / maxScroll, 1)
-      const next = scrollProgress * video.duration
-      
-      targetTimeRef.current = Math.min(Math.max(next, 0), video.duration - 0.05)
-      requestSeek()
-    }
-
     video.addEventListener('loadedmetadata', onLoadedMetadata)
     video.addEventListener('seeked', onSeeked)
-    window.addEventListener('mousemove', onMouseMove)
-    window.addEventListener('scroll', onScroll, { passive: true })
+    if (!isMobile) {
+      window.addEventListener('mousemove', onMouseMove)
+    }
 
     return () => {
       observer.disconnect()
       video.removeEventListener('loadedmetadata', onLoadedMetadata)
       video.removeEventListener('seeked', onSeeked)
       window.removeEventListener('mousemove', onMouseMove)
-      window.removeEventListener('scroll', onScroll)
     }
   }, [])
 
