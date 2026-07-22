@@ -36,7 +36,20 @@ export default function AutoVideo({
 
     let visible = false
     const play = () => {
-      if (visible) video.play().catch(() => {})
+      if (!visible) return
+      video.muted = true
+      video.defaultMuted = true
+      const p = video.play()
+      if (p !== undefined) {
+        p.catch(() => {
+          const unlock = () => {
+            if (visible) video.play().catch(() => {})
+          }
+          window.addEventListener('touchstart', unlock, { once: true })
+          window.addEventListener('scroll', unlock, { once: true })
+          window.addEventListener('pointerdown', unlock, { once: true })
+        })
+      }
     }
 
     const observer = new IntersectionObserver(

@@ -38,7 +38,20 @@ export default function CrossfadeLoopVideo({
     let fading = false
 
     const tryPlay = (v: HTMLVideoElement) => {
-      if (visible) v.play().catch(() => {})
+      if (!visible) return
+      v.muted = true
+      v.defaultMuted = true
+      const p = v.play()
+      if (p !== undefined) {
+        p.catch(() => {
+          const unlock = () => {
+            if (visible) v.play().catch(() => {})
+          }
+          window.addEventListener('touchstart', unlock, { once: true })
+          window.addEventListener('scroll', unlock, { once: true })
+          window.addEventListener('pointerdown', unlock, { once: true })
+        })
+      }
     }
 
     const tick = () => {
