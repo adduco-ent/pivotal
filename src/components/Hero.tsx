@@ -3,16 +3,34 @@ import { motion } from 'framer-motion'
 import ScrambleIn from './ScrambleIn'
 import SectionFade from './SectionFade'
 
-const HERO_VIDEO =
+const DEFAULT_HERO_VIDEO =
   'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260622_083515_290e5a10-0b95-41af-a5e2-32b6389baa4d.mp4'
 
 const SCRUB_SENSITIVITY = 0.8
 
 interface HeroProps {
   entranceComplete: boolean
+  headlinePart1?: string
+  headlinePart2?: string
+  sublinePart1?: string
+  sublinePart2?: string
+  description?: string
+  bgText?: string
+  bgVideoSrc?: string
+  mobileImageSrc?: string
 }
 
-export default function Hero({ entranceComplete }: HeroProps) {
+export default function Hero({
+  entranceComplete,
+  headlinePart1 = 'Brand',
+  headlinePart2 = 'And Audience',
+  sublinePart1 = 'Zero',
+  sublinePart2 = 'Leaks',
+  description = 'We map your entire funnel, find where revenue leaks out, and build the plan to plug it — more conversions and higher margins, without spending another dollar on ads.',
+  bgText = 'PIVOTAL',
+  bgVideoSrc = DEFAULT_HERO_VIDEO,
+  mobileImageSrc = '/hero-llama.jpg',
+}: HeroProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const targetTimeRef = useRef(0)
   const seekingRef = useRef(false)
@@ -84,15 +102,15 @@ export default function Hero({ entranceComplete }: HeroProps) {
     <section className="relative h-screen h-[100dvh] overflow-hidden">
       {/* Mobile: High-res static image frame (completely avoids video tags & play buttons on iOS) */}
       <img
-        src="/hero-llama.jpg"
-        alt="PivotalX Hero"
+        src={mobileImageSrc}
+        alt="Hero Background"
         className="absolute inset-x-0 top-0 h-[56%] w-full object-cover object-[50%_25%] sm:hidden pointer-events-none"
       />
 
       {/* Desktop: Interactive video driven by cursor movement */}
       <video
         ref={videoRef}
-        src={HERO_VIDEO}
+        src={bgVideoSrc}
         muted
         playsInline
         autoPlay
@@ -138,7 +156,7 @@ export default function Hero({ entranceComplete }: HeroProps) {
               color: 'transparent',
             }}
           >
-            PIVOTAL
+            {bgText}
             <span
               style={{
                 fontSize: '0.55em',
@@ -164,17 +182,17 @@ export default function Hero({ entranceComplete }: HeroProps) {
             line spacing. */}
         <div className="grid gap-0 sm:gap-6 md:grid-cols-[1fr_auto] md:items-end md:gap-8">
           <h1 className="order-1 md:col-start-1 md:row-start-1 text-white font-normal leading-[0.95] tracking-[-0.03em] text-[clamp(34px,11.5vw,100px)]">
-            <ScrambleIn text="Brand" delay={200} triggered={entranceComplete} />
+            <ScrambleIn text={headlinePart1} delay={200} triggered={entranceComplete} />
             <br />
-            <ScrambleIn text="And Audience" delay={500} triggered={entranceComplete} />
+            <ScrambleIn text={headlinePart2} delay={500} triggered={entranceComplete} />
           </h1>
 
           {/* Mobile: one left-aligned line continuing the headline stack.
               Desktop: two-line right-aligned response in its own column. */}
           <h1 className="order-2 md:col-start-2 md:row-start-1 md:row-span-2 md:self-end text-left md:text-right text-white font-normal leading-[0.95] tracking-[-0.03em] text-[clamp(34px,11.5vw,100px)]">
-            <ScrambleIn text="Zero" delay={700} triggered={entranceComplete} />{' '}
+            <ScrambleIn text={sublinePart1} delay={700} triggered={entranceComplete} />{' '}
             <br className="hidden md:block" />
-            <ScrambleIn text="Leaks" delay={1000} triggered={entranceComplete} />
+            <ScrambleIn text={sublinePart2} delay={1000} triggered={entranceComplete} />
           </h1>
 
           <motion.p
@@ -183,8 +201,7 @@ export default function Hero({ entranceComplete }: HeroProps) {
             transition={{ duration: 0.9, ease: [0.215, 0.61, 0.355, 1.0], delay: 0.2 }}
             className="order-3 md:col-start-1 md:row-start-2 mt-6 md:mt-0 max-w-sm text-[13px] sm:text-[15px] text-white/60 leading-relaxed"
           >
-            We map your entire funnel, find where revenue leaks out, and build the plan to plug
-            it — more conversions and higher margins, without spending another dollar on ads.
+            {description}
           </motion.p>
         </div>
       </motion.div>

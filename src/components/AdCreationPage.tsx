@@ -3,12 +3,7 @@ import Navbar from './Navbar'
 import Footer from './Footer'
 import SharedNightSky from './SharedNightSky'
 import ClosingCTA from './ClosingCTA'
-import SectionFade from './SectionFade'
-import ScrambleIn from './ScrambleIn'
-import { motion } from 'framer-motion'
-
-const AD_VIDEO =
-  'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260622_083515_290e5a10-0b95-41af-a5e2-32b6389baa4d.mp4'
+import Hero from './Hero'
 
 export default function AdCreationPage() {
   const [entranceComplete, setEntranceComplete] = useState(false)
@@ -21,82 +16,15 @@ export default function AdCreationPage() {
   return (
     <>
       <Navbar entranceComplete={entranceComplete} />
-      
-      {/* Ad Creation Hero */}
-      <section className="relative h-screen h-[100dvh] overflow-hidden">
-        {/* Mobile static image */}
-        <img
-          src="/hero-llama.jpg"
-          alt="PivotalX Ads"
-          className="absolute inset-x-0 top-0 h-[56%] w-full object-cover object-[50%_25%] sm:hidden pointer-events-none"
-        />
-
-        {/* Desktop looping video */}
-        <video
-          src={AD_VIDEO}
-          muted
-          playsInline
-          autoPlay
-          loop
-          preload="auto"
-          className="hidden sm:block absolute inset-0 h-full w-full object-cover object-center pointer-events-none"
-          style={{ transform: 'translateZ(0)' }}
-        />
-
-        <div
-          className="absolute inset-x-0 sm:hidden pointer-events-none"
-          style={{
-            top: 'calc(56% - 150px)',
-            height: 150,
-            background: 'linear-gradient(to bottom, transparent, #000)',
-          }}
-        />
-
-        <SectionFade position="bottom" height={320} />
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: entranceComplete ? 1 : 0 }}
-          transition={{ duration: 1 }}
-          className="relative z-10 flex flex-col h-full px-4 sm:px-6 md:px-8 pt-20 sm:pt-24 pb-10 sm:pb-16"
-        >
-          <div className="absolute inset-0 flex items-end pb-40 sm:pb-0 sm:items-center justify-center pointer-events-none select-none translate-y-0 sm:translate-y-[50px]">
-            <span
-              className="whitespace-nowrap flex items-center text-[86px] sm:text-[clamp(124px,24vw,460px)]"
-              style={{
-                fontFamily: '"Anton SC", sans-serif',
-                letterSpacing: '-0.015em',
-                opacity: 0.12,
-                background: 'radial-gradient(circle, rgba(142,127,148,0) 0%, #8E7F94 70%)',
-                WebkitBackgroundClip: 'text',
-                backgroundClip: 'text',
-                color: 'transparent',
-              }}
-            >
-              CREATIVE
-            </span>
-          </div>
-
-          <div className="flex-1" />
-
-          <div className="grid gap-0 sm:gap-6 md:grid-cols-[1fr_auto] md:items-end md:gap-8">
-            <h1 className="order-1 md:col-start-1 md:row-start-1 text-white font-normal leading-[0.95] tracking-[-0.03em] text-[clamp(34px,11.5vw,100px)]">
-              <ScrambleIn text="Ads That" delay={200} triggered={entranceComplete} />
-              <br />
-              <ScrambleIn text="Stop The Scroll" delay={500} triggered={entranceComplete} />
-            </h1>
-
-            <motion.p
-              initial={{ opacity: 0, y: 25 }}
-              animate={entranceComplete ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.9, ease: [0.215, 0.61, 0.355, 1.0], delay: 0.2 }}
-              className="order-3 md:col-start-1 md:row-start-2 mt-6 md:mt-0 max-w-sm text-[13px] sm:text-[15px] text-white/60 leading-relaxed"
-            >
-              Cinematic brand films, native UGC cuts, and high-converting static image ads designed to scale your ROAS. We build creative that converts.
-            </motion.p>
-          </div>
-        </motion.div>
-      </section>
+      <Hero
+        entranceComplete={entranceComplete}
+        headlinePart1="Ads That"
+        headlinePart2="Stop The Scroll"
+        sublinePart1=""
+        sublinePart2=""
+        description="Cinematic brand films, native UGC cuts, and high-converting static image ads designed to scale your ROAS. We build creative that converts."
+        bgText="CREATIVE"
+      />
 
       {/* Services Grid */}
       <div className="relative bg-black z-10 py-24 sm:py-32">
@@ -133,6 +61,52 @@ export default function AdCreationPage() {
               </ul>
             </div>
 
+          </div>
+        </div>
+      </div>
+
+      {/* Examples Gallery */}
+      <div className="relative bg-black z-10 pb-24 sm:pb-32 border-t border-white/10 pt-24 sm:pt-32">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col items-center mb-16 text-center">
+            <h2 className="text-3xl sm:text-4xl font-normal tracking-tight mb-4">Recent Work</h2>
+            <p className="text-white/60 text-sm sm:text-base max-w-2xl">
+              A curated selection of cinematic brand films, high-converting UGC cuts, and premium static assets that we've produced for top brands.
+            </p>
+          </div>
+
+          {/* Masonry Placeholder Grid */}
+          <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
+            <div className="w-full bg-white/5 rounded-2xl aspect-[9/16] overflow-hidden relative group">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
+                <span className="text-white/80 font-mono text-xs tracking-wider">01 / BRAND ANTHEM</span>
+              </div>
+            </div>
+            <div className="w-full bg-white/5 rounded-2xl aspect-square overflow-hidden relative group">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
+                <span className="text-white/80 font-mono text-xs tracking-wider">02 / STATIC ASSET</span>
+              </div>
+            </div>
+            <div className="w-full bg-white/5 rounded-2xl aspect-[4/5] overflow-hidden relative group">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
+                <span className="text-white/80 font-mono text-xs tracking-wider">03 / UGC CUT</span>
+              </div>
+            </div>
+            <div className="w-full bg-white/5 rounded-2xl aspect-square overflow-hidden relative group">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
+                <span className="text-white/80 font-mono text-xs tracking-wider">04 / PRODUCT SHOWCASE</span>
+              </div>
+            </div>
+            <div className="w-full bg-white/5 rounded-2xl aspect-[9/16] overflow-hidden relative group">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
+                <span className="text-white/80 font-mono text-xs tracking-wider">05 / TIKTOK NATIVE</span>
+              </div>
+            </div>
+            <div className="w-full bg-white/5 rounded-2xl aspect-[4/5] overflow-hidden relative group">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
+                <span className="text-white/80 font-mono text-xs tracking-wider">06 / LIFESTYLE</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
