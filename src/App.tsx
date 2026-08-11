@@ -6,6 +6,7 @@ import LandingPage from './components/LandingPage'
 import TermsPage from './components/legal/TermsPage'
 import PrivacyPage from './components/legal/PrivacyPage'
 import ContentReview from './components/ContentReview'
+import AdCreationPage from './components/AdCreationPage'
 import Grain from './components/Grain'
 
 export default function App() {
@@ -20,6 +21,7 @@ export default function App() {
   if (path === '/terms') page = <TermsPage />
   else if (path === '/privacy') page = <PrivacyPage />
   else if (path === '/admin/content') page = <ContentReview />
+  else if (path === '/services/ad-creation') page = <AdCreationPage />
   else page = <LandingPage />
 
   return (
