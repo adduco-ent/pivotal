@@ -43,16 +43,6 @@ export default function Footer() {
             </p>
             <nav className="flex items-center gap-5 text-[12px]">
               <a
-                href="/services/ad-creation"
-                onClick={(e) => {
-                  e.preventDefault()
-                  navigate('/services/ad-creation')
-                }}
-                className="text-white/40 hover:text-white/80 transition-colors"
-              >
-                Services
-              </a>
-              <a
                 href="/terms"
                 onClick={(e) => {
                   e.preventDefault()

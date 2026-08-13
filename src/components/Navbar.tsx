@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { scrollToY } from '../lib/smoothScroll'
 import { useBooking } from '../lib/booking'
-import { navigate } from '../lib/router'
 import PivotalXLogo from './PivotalXLogo'
 import ScrambleText from './ScrambleText'
 import SquashHamburger from './SquashHamburger'
@@ -103,7 +102,6 @@ export default function Navbar({ entranceComplete }: NavbarProps) {
               {menuOpen && (
                 <div className="flex items-center gap-5 px-4">
                   <NavLink label="About" onClick={() => scrollToSection('about')} />
-                  <NavLink label="Services" onClick={() => navigate('/services/ad-creation')} />
                   <NavLink label="Metrics" onClick={() => scrollToSection('metrics')} />
                 </div>
               )}
@@ -150,7 +148,6 @@ export default function Navbar({ entranceComplete }: NavbarProps) {
               {menuOpen && (
                 <div className="flex items-center gap-4 px-3 [&_button]:text-[13px]">
                   <NavLink label="About" onClick={() => scrollToSection('about')} />
-                  <NavLink label="Services" onClick={() => navigate('/services/ad-creation')} />
                   <NavLink label="Metrics" onClick={() => scrollToSection('metrics')} />
                 </div>
               )}
