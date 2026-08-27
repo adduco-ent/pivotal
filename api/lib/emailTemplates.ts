@@ -8,117 +8,108 @@ export function getGreeting(firstName?: string | null): string {
 export const EMAIL_TEMPLATES = {
   sequenceA: {
     email1: {
-      subject: 'after the click',
+      subject: 'quick question',
       body: `{{GREETING}}
 
-Most brands we audit are losing 20–30% of their buyers *after* the click — checkout friction, dead-end thank-you pages, follow-ups that never fire.
+Are you guys currently running any A/B tests on your checkout flow?
 
-The ad account looks healthy. The funnel is where the money quietly walks out.
+We've been seeing a lot of brands lately with great ad performance, but they're losing 20-30% of their buyers right at the finish line due to minor friction. 
 
-Worth a look at your own numbers post-click. Most founders have never mapped it.
+Would love to share a few tweaks we've been implementing if you're open to it. 
 
-Jarred Letofsky
-pivotaltimes.io`
+Jarred`
     },
     email2: {
-      subject: 'Re: after the click',
+      subject: 'Re: quick question',
       body: `{{GREETING}}
 
-Bubbling this up.
+Just floating this back to the top of your inbox. 
 
-When growth stalls, the instinct is to raise ad spend. But pouring more traffic into a leaking funnel just means renting revenue at worse margins every month.
+Usually when we audit funnels, we find a few simple leaks that are costing a lot of money. Let me know if you're open to a quick chat about it!
 
-We seal the leaks first — the exact process is at the link below if you want to see how we map it.
-
-Jarred Letofsky
-pivotaltimes.io`
+Jarred`
     },
     email3: {
       subject: 'timing',
       body: `{{GREETING}}
 
-Timing's clearly off, so I'll leave it here.
+Looks like timing might be off here, so I'll stop reaching out. 
 
-If conversion ever becomes the bottleneck — it usually does before ad costs stop climbing — the full breakdown of how we find and seal funnel leaks is below.
+If you guys ever want a second pair of eyes on your funnel to boost conversions, just let me know!
 
-Jarred Letofsky
-pivotaltimes.io`
+Jarred`
     }
   },
   sequenceB: {
     email1: {
-      subject: 'backend vs. front end',
+      subject: 'scaling the backend',
       body: `{{GREETING}}
 
-A pattern we see constantly: top-of-funnel scales, the backend doesn't. Traffic doubles, but the pages, offers, and follow-up sequences underneath were built for a company half the size.
+I was taking a look at your site and was curious—are you guys handling all your funnel optimization in-house right now?
 
-The result is ad spend working harder to push buyers through a funnel that's dropping more of them than it did a year ago.
+A lot of brands we talk to are scaling their front-end ad spend, but their backend (landing pages, offers, follow-up emails) is dropping the ball. 
 
-If you haven't stress-tested yours since traffic grew, it's probably happening to you too.
+If you're open to it, I'd love to share how we plug those leaks. 
 
-Jarred Letofsky
-pivotaltimes.io`
+Jarred`
     },
     email2: {
-      subject: 'Re: backend vs. front end',
+      subject: 'Re: scaling the backend',
       body: `{{GREETING}}
 
-Quick follow-up.
+Just checking back in on this. 
 
-Most of the brands we work with came to us wanting more traffic. What they actually needed was to stop losing the traffic they'd already paid for — same spend, meaningfully better margins.
+Most founders think they need more traffic to scale, when in reality, they just need to stop losing the traffic they already paid for. 
 
-How we map the drop-off points is laid out at the link below.
+Are you guys currently focused on improving your conversion rates?
 
-Jarred Letofsky
-pivotaltimes.io`
+Jarred`
     },
     email3: {
       subject: 'closing the loop',
       body: `{{GREETING}}
 
-Assuming this isn't a priority right now — no problem, I'll close the loop.
+Assuming this isn't a priority right now, so I'll close the loop. 
 
-If you ever want to know exactly where revenue is slipping out of your funnel, you know where to find us.
+If you ever want to see exactly where revenue is slipping out of your funnel, feel free to reach out. 
 
-Jarred Letofsky
-pivotaltimes.io`
+Jarred`
     }
   },
   sequenceC: {
     email1: {
-      subject: 'cheaper than more ads',
+      subject: 'your conversion rate',
       body: `{{GREETING}}
 
-Quick math most founders never run: lifting funnel conversion from 2% to 2.5% is the same revenue as buying 25% more traffic — except one costs a fix and the other costs that much more ad spend, forever.
+Quick question for you—what's your main focus right now for growth? Are you leaning more towards increasing ad spend, or optimizing your current conversion rate?
 
-Almost everyone defaults to buying the traffic.
+We've found that lifting a funnel's conversion rate by just 0.5% brings in the same revenue as buying 25% more traffic (but without the ongoing ad costs).
 
-Jarred Letofsky
-pivotaltimes.io`
+Would love to show you how we do this if you're interested. 
+
+Jarred`
     },
     email2: {
-      subject: 'Re: cheaper than more ads',
+      subject: 'Re: your conversion rate',
       body: `{{GREETING}}
 
-One more on this.
+Bubbling this up! 
 
-The conversion lift is almost always sitting in places nobody owns — the step between opt-in and offer, the abandoned checkout that gets one weak email, the mobile page nobody's tested since launch.
+The biggest wins we find are usually in the places nobody is paying attention to—like the step between the opt-in and the offer, or the abandoned cart sequences. 
 
-Finding those is literally all we do. Process is at the link below.
+Let me know if you'd be open to a quick 10-minute chat to see if we can help you plug some leaks. 
 
-Jarred Letofsky
-pivotaltimes.io`
+Jarred`
     },
     email3: {
       subject: 'last one',
       body: `{{GREETING}}
 
-I'll stop here.
+I'll stop bugging you after this one. 
 
-If ad costs keep climbing and margins keep thinning, the fix usually isn't more spend — it's the funnel. When you're ready to map yours, the link below is where to start.
+If ad costs keep climbing and you want to squeeze more margin out of the traffic you already have, let me know. 
 
-Jarred Letofsky
-pivotaltimes.io`
+Jarred`
     }
   }
 };
