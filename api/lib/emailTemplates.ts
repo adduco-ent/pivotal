@@ -11,11 +11,11 @@ export const EMAIL_TEMPLATES = {
       subject: 'quick question',
       body: `{{GREETING}}
 
-Are you guys currently running any A/B tests on your checkout flow?
+Quick question for you—are you guys handling all your page tweaks and conversion stuff internally right now?
 
-We've been seeing a lot of brands lately with great ad performance, but they're losing 20-30% of their buyers right at the finish line due to minor friction. 
+Only asking because we've been looking at a lot of brands in your space lately, and almost all of them have tiny friction points right before checkout that are quietly killing sales. 
 
-Would love to share a few tweaks we've been implementing if you're open to it. 
+Would love to share a few quick fixes we’ve been implementing if you’re open to it?
 
 Jarred`
     },
@@ -23,9 +23,9 @@ Jarred`
       subject: 'Re: quick question',
       body: `{{GREETING}}
 
-Just floating this back to the top of your inbox. 
+Just bubbling this up real quick. 
 
-Usually when we audit funnels, we find a few simple leaks that are costing a lot of money. Let me know if you're open to a quick chat about it!
+Usually when we take a peek under the hood, we find a few simple leaks that are costing a lot of money. Totally fine if you're not focused on it right now, but let me know if you're open to a quick chat!
 
 Jarred`
     },
@@ -33,35 +33,35 @@ Jarred`
       subject: 'timing',
       body: `{{GREETING}}
 
-Looks like timing might be off here, so I'll stop reaching out. 
+Looks like timing might be off on my end, so I'll leave it here. 
 
-If you guys ever want a second pair of eyes on your funnel to boost conversions, just let me know!
+If you guys ever want a second set of eyes to help plug some leaks and boost sales, you know where to find me. 
 
 Jarred`
     }
   },
   sequenceB: {
     email1: {
-      subject: 'scaling the backend',
+      subject: 'ad spend vs conversions',
       body: `{{GREETING}}
 
-I was taking a look at your site and was curious—are you guys handling all your funnel optimization in-house right now?
+Quick question for you—what's the main focus for you guys right now? Are you leaning more towards scaling up ad spend, or getting more sales out of the traffic you already have?
 
-A lot of brands we talk to are scaling their front-end ad spend, but their backend (landing pages, offers, follow-up emails) is dropping the ball. 
+I ask because I see a lot of founders doubling their ad spend, but the pages underneath are dropping the ball and losing half those buyers. 
 
-If you're open to it, I'd love to share how we plug those leaks. 
+If you're ever open to it, I'd love to show you how we fix that. 
 
 Jarred`
     },
     email2: {
-      subject: 'Re: scaling the backend',
+      subject: 'Re: ad spend vs conversions',
       body: `{{GREETING}}
 
 Just checking back in on this. 
 
-Most founders think they need more traffic to scale, when in reality, they just need to stop losing the traffic they already paid for. 
+It's crazy how often we see brands just pouring money into ads when a few simple tweaks to their site would give them the same revenue boost for free. 
 
-Are you guys currently focused on improving your conversion rates?
+Are you guys currently focused on improving your conversion rates at all?
 
 Jarred`
     },
@@ -69,35 +69,35 @@ Jarred`
       subject: 'closing the loop',
       body: `{{GREETING}}
 
-Assuming this isn't a priority right now, so I'll close the loop. 
+Assuming this isn't a huge priority right now, so I'll stop bugging you! 
 
-If you ever want to see exactly where revenue is slipping out of your funnel, feel free to reach out. 
+If you ever want to see exactly where revenue is slipping out the back door, feel free to reach out anytime. 
 
 Jarred`
     }
   },
   sequenceC: {
     email1: {
-      subject: 'your conversion rate',
+      subject: 'your checkout',
       body: `{{GREETING}}
 
-Quick question for you—what's your main focus right now for growth? Are you leaning more towards increasing ad spend, or optimizing your current conversion rate?
+Curious—how much of your traffic is actually making it through checkout right now? 
 
-We've found that lifting a funnel's conversion rate by just 0.5% brings in the same revenue as buying 25% more traffic (but without the ongoing ad costs).
+We've been finding that just fixing a few small leaks between the cart and the final purchase is basically the equivalent of getting 25% more traffic for free (without spending another dollar on ads). 
 
-Would love to show you how we do this if you're interested. 
+Would love to share what’s been working for us lately if you're interested.
 
 Jarred`
     },
     email2: {
-      subject: 'Re: your conversion rate',
+      subject: 'Re: your checkout',
       body: `{{GREETING}}
 
-Bubbling this up! 
+Just floating this back up. 
 
-The biggest wins we find are usually in the places nobody is paying attention to—like the step between the opt-in and the offer, or the abandoned cart sequences. 
+The biggest wins we find are usually in the spots nobody really thinks about—like the exact step right after they add to cart but before they pay. 
 
-Let me know if you'd be open to a quick 10-minute chat to see if we can help you plug some leaks. 
+Let me know if you'd be open to a quick 10-minute chat this week to see if we can help out. 
 
 Jarred`
     },
@@ -105,9 +105,9 @@ Jarred`
       subject: 'last one',
       body: `{{GREETING}}
 
-I'll stop bugging you after this one. 
+I'll stop filling up your inbox after this one. 
 
-If ad costs keep climbing and you want to squeeze more margin out of the traffic you already have, let me know. 
+If ad costs keep getting more expensive and you want to squeeze a bit more profit out of the traffic you already have, let me know. 
 
 Jarred`
     }
