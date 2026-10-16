@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.110.7",
+    "@types/three": "^0.186.0",
     "@vercel/node": "^5.8.26",
     "dotenv": "^17.4.2",
     "framer-motion": "^12.40.0",
@@ -18,7 +19,8 @@
     "lucide-react": "^0.344.0",
     "openai": "^6.48.0",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "three": "^0.186.1"
   },
   "devDependencies": {
     "@types/react": "^18.3.5",
