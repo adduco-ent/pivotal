@@ -65,10 +65,8 @@ export default function YourNumber() {
           <p className="mt-4 text-white/65 text-[15px] sm:text-[17px]">
             every month. That’s <AnimatedNumber value={monthly * 12} format={fullMoney} className="text-white" /> a year.
           </p>
-          <p className="mt-10 text-white/45 text-[12px] sm:text-[13px] leading-relaxed max-w-lg mx-auto">
-            Assumes a half-point conversion lift (for example 2.0% → 2.5%), which is +25% revenue at the
-            same traffic. Your real number depends on where your funnel leaks, and finding that is what
-            the review is for.
+          <p className="mt-10 text-white/40 text-[12px] sm:text-[13px] leading-relaxed max-w-md mx-auto">
+            Assumes a half-point lift (2.0% → 2.5%). Your real number is what the review finds.
           </p>
         </div>
       </motion.div>

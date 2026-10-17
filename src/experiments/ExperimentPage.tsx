@@ -14,31 +14,12 @@ import YourNumber from './journey/YourNumber'
 const HERO_VIDEO =
   'https://d8j0ntlcm91z4.cloudfront.net/user_3GBQGaD12kz0IEgO44KqK8F5cRh/hf_20260713_223732_a5b780e0-0e35-4cc4-916b-f06d32b2644e.mp4'
 
-const PILLARS = [
-  {
-    tag: '01 / Offer Engineering',
-    title: 'New Products & Service Bundles',
-    desc: 'The fastest path to higher conversion isn’t changing button colors—it’s restructuring what you sell. We engineer high-converting product tiers, high-margin service bundles, and one-click AOV expansion mechanics.',
-    bullets: 'High-AOV Bundles · Value Stacking · Continuity Offers',
-  },
-  {
-    tag: '02 / Brand Lift & Sales Pages',
-    title: 'Flagship Sites & Cinematic CRO',
-    desc: 'Premium pricing demands premium perception. We redesign web experiences and high-impact sales pages with cinematic visual authority, turning cold paid clicks into loyal, high-margin buyers.',
-    bullets: 'Cinematic Web Design · Sales Page CRO · Instant Authority',
-  },
-  {
-    tag: '03 / Advanced Systems',
-    title: 'Custom Dashboards & Bespoke CRMs',
-    desc: 'You can’t scale what you can’t see. We build custom executive business intelligence dashboards and tailored CRM pipelines that track real net margins, cohort LTV, and customer drop-offs in real time.',
-    bullets: 'Real-Time Margins · Cohort LTV Tracking · Custom Pipelines',
-  },
-  {
-    tag: '04 / Elite Paid Media Network',
-    title: '$100M+ ARR Ad Partner Synergy',
-    desc: 'Backed by elite media buying partners who have scaled brands to over $100M in ARR. We engineer the conversion architecture and post-click backend so aggressive ad spend scales profitably.',
-    bullets: 'Media Buyer Alignment · High-ROAS Backend · Scale-Ready',
-  },
+// One line each. The page sells the call, not the service menu.
+const LEVERS = [
+  { n: '01', title: 'Offers that sell', line: 'New products and bundles that lift conversion and order value.' },
+  { n: '02', title: 'Brand & sales pages', line: 'Cinematic sites that earn premium prices.' },
+  { n: '03', title: 'Dashboards & CRM', line: 'Custom BI that shows where margin is made and lost.' },
+  { n: '04', title: '$100M+ ad partners', line: 'Media buyers who’ve scaled brands past $100M ARR.' },
 ]
 
 export default function ExperimentPage() {
@@ -57,13 +38,14 @@ export default function ExperimentPage() {
     return () => clearTimeout(t)
   }, [])
 
+  // Floating CTA appears after the peak ("Two bought") and yields to the close.
   const pillVisible = reachedPeak && !heroInView && !closeInView
 
   return (
     <>
       <Navbar entranceComplete={entranceComplete} />
 
-      {/* 1 · Hero */}
+      {/* Hero */}
       <section ref={heroRef} className="relative h-screen h-[100dvh] overflow-hidden">
         <AutoVideo src={HERO_VIDEO} playbackRate={0.8} className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute inset-0 bg-black/45 pointer-events-none" />
@@ -76,9 +58,6 @@ export default function ExperimentPage() {
           transition={{ duration: 1 }}
           className="relative z-20 h-full w-full max-w-6xl mx-auto px-6 sm:px-8 flex flex-col justify-end pb-20 sm:pb-24"
         >
-          <p className="text-white/60 text-[12px] sm:text-[13px] tracking-[0.25em] uppercase mb-6">
-            PivotalX Growth Architecture<span style={{ color: '#d96aa8' }}>.</span>
-          </p>
           <h1 className="text-white font-normal leading-[0.98] tracking-[-0.03em] text-[clamp(40px,8.5vw,108px)]">
             <ScrambleIn text="You paid for" delay={200} triggered={entranceComplete} />
             <br />
@@ -91,14 +70,14 @@ export default function ExperimentPage() {
             transition={{ duration: 0.9, delay: 0.5 }}
             className="mt-7 max-w-md text-white/75 text-[16px] sm:text-[18px] leading-relaxed"
           >
-            Follow 100 paid visitors through your site, and see where revenue quietly leaks out.
+            Follow 100 paid visitors. See where your revenue walks out.
           </motion.p>
 
           <motion.div
             initial={{ opacity: 0 }}
             animate={entranceComplete ? { opacity: 1 } : {}}
             transition={{ duration: 1, delay: 1.4 }}
-            className="mt-12 flex items-center gap-3 text-white/60 text-[12px] tracking-[0.2em] uppercase"
+            className="mt-12 flex items-center gap-3 text-white/55 text-[12px] tracking-[0.2em] uppercase"
           >
             <span className="relative block w-px h-10 bg-white/20 overflow-hidden">
               <motion.span
@@ -107,75 +86,70 @@ export default function ExperimentPage() {
                 transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
               />
             </span>
-            Scroll to follow them
+            Scroll
           </motion.div>
         </motion.div>
       </section>
 
-      {/* Shared Night Sky Wrapper for all sections below the fold */}
+      {/* Leak breakdown: pure black, nothing moving behind it, so the dots own attention */}
+      <div className="relative bg-black">
+        <LeakJourney onPhaseChange={(p) => p >= 4 && setReachedPeak(true)} />
+      </div>
+
+      {/* Atmosphere returns only after the breakdown. The sky's own top mask fades it in. */}
       <div className="relative bg-black">
         <SharedNightSky />
 
-        {/* 2 · The 100-Visitor Journey */}
         <div className="relative z-10">
-          <LeakJourney onPhaseChange={(p) => p >= 4 && setReachedPeak(true)} />
+          <YourNumber />
         </div>
 
-        {/* 3 · Full Enterprise Capability Matrix */}
-        <section className="relative z-10 py-28 sm:py-36 px-6 max-w-6xl mx-auto border-t border-white/10">
+        {/* Four levers */}
+        <section className="relative z-10 py-24 sm:py-32 px-6">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 1.0 }}
-            className="text-center max-w-3xl mx-auto mb-16 sm:mb-20"
+            className="max-w-4xl mx-auto"
           >
-            <ScrambleLabel
-              text="Full-Stack Growth Engineering"
-              className="text-white/55 text-[12px] sm:text-[13px] tracking-[0.25em] uppercase mb-6"
-            />
-            <h2 className="text-white font-normal text-[clamp(28px,5vw,52px)] leading-[1.12] tracking-[-0.02em]">
-              Beyond Funnels. We Engineer the Entire Revenue Engine.
-            </h2>
-            <p className="mt-6 text-white/60 text-[15px] sm:text-[17px] leading-relaxed max-w-xl mx-auto">
-              We build the offers, digital flagships, and custom business intelligence systems that turn traffic into compounding enterprise value.
-            </p>
-          </motion.div>
+            <div className="text-center mb-16 sm:mb-20">
+              <ScrambleLabel
+                text="Beyond the funnel"
+                className="text-white/55 text-[12px] sm:text-[13px] tracking-[0.25em] uppercase mb-6"
+              />
+              <h2 className="text-white font-normal text-[clamp(28px,5vw,52px)] leading-[1.12] tracking-[-0.02em]">
+                Four levers. One growth engine.
+              </h2>
+            </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-            {PILLARS.map((p, i) => (
-              <motion.div
-                key={p.tag}
-                initial={{ opacity: 0, y: 25 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.8, delay: i * 0.12 }}
-                className="p-8 sm:p-10 rounded-3xl bg-white/[0.02] border border-white/10 hover:border-white/20 transition-all backdrop-blur-sm group"
-              >
-                <span className="text-[11px] font-mono tracking-widest uppercase text-[#d96aa8]">
-                  {p.tag}
-                </span>
-                <h3 className="text-2xl font-normal text-white mt-3 mb-4 group-hover:text-white transition-colors">
-                  {p.title}
-                </h3>
-                <p className="text-white/60 text-sm leading-relaxed mb-6 font-sans">
-                  {p.desc}
-                </p>
-                <div className="text-[12px] font-mono text-white/40 flex items-center gap-2 pt-4 border-t border-white/5">
-                  <span className="text-[#d96aa8]">×</span> {p.bullets}
-                </div>
-              </motion.div>
-            ))}
-          </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-16 gap-y-12 sm:gap-y-14">
+              {LEVERS.map((l, i) => (
+                <motion.div
+                  key={l.n}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.5 }}
+                  transition={{ duration: 0.8, delay: i * 0.1 }}
+                  className="text-center sm:text-left"
+                >
+                  <div className="text-[13px] tracking-[0.2em]" style={{ color: '#d96aa8' }}>
+                    {l.n}
+                  </div>
+                  <h3 className="mt-3 text-white font-normal text-[22px] sm:text-[26px] tracking-[-0.01em]">
+                    {l.title}
+                  </h3>
+                  <p className="mt-3 text-white/60 text-[15px] sm:text-[16px] leading-relaxed max-w-sm mx-auto sm:mx-0">
+                    {l.line}
+                  </p>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
         </section>
 
-        {/* 4 · Personal Estimate */}
-        <div className="relative z-10 border-t border-white/10">
-          <YourNumber />
-        </div>
-
-        {/* 5 · The Founder Close */}
-        <section ref={closeRef} className="relative z-10 pt-36 pb-28 sm:py-40 px-6 border-t border-white/10">
+        {/* Close */}
+        <section ref={closeRef} className="relative z-10 pt-28 pb-32 sm:pt-32 sm:pb-40 px-6">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -202,15 +176,12 @@ export default function ExperimentPage() {
               </div>
             )}
 
-            <ScrambleLabel
-              text="Direct Engagement"
-              className="text-white/55 text-[12px] sm:text-[13px] tracking-[0.25em] uppercase mb-8"
-            />
             <h2 className="text-white font-normal text-[clamp(30px,6vw,56px)] leading-[1.12] tracking-[-0.02em]">
-              Where does your revenue leak?
+              Where do your other 98 go?
             </h2>
             <p className="mt-8 text-white/75 text-[16px] sm:text-[19px] leading-relaxed">
-              “I engineer every system myself—no junior team, no account managers. Backed by ad partners who have scaled brands to over $100M in ARR, we look at your offers, brand, and data the way an investor would: where the money leaks, and how to scale it.”
+              “I build every system myself. No juniors, no hand-offs. I’ll show you where your revenue
+              leaks, and how to scale it.”
             </p>
             <p className="mt-6 text-[14px] tracking-wide">
               <span className="text-white/90">Jarred Letofsky</span>
@@ -224,12 +195,10 @@ export default function ExperimentPage() {
                 whileTap={{ scale: 0.97 }}
                 className="inline-flex items-center gap-2.5 h-14 px-9 bg-white rounded-full text-black text-[16px] font-medium"
               >
-                Book a Strategy Call
+                Find my leaks
                 <span aria-hidden="true">→</span>
               </motion.button>
-              <p className="text-white/55 text-[13px] mt-4 tracking-wide">
-                Direct founder review. No pitch, just the leaks we find.
-              </p>
+              <p className="text-white/50 text-[13px] mt-4 tracking-wide">Free 30-minute review.</p>
             </div>
           </motion.div>
         </section>
@@ -237,7 +206,6 @@ export default function ExperimentPage() {
 
       <Footer />
 
-      {/* Floating CTA pill after the peak tension moment */}
       <AnimatePresence>
         {pillVisible && (
           <motion.div
@@ -252,7 +220,7 @@ export default function ExperimentPage() {
               className="pointer-events-auto inline-flex items-center gap-2.5 h-12 pl-5 pr-6 rounded-full bg-white text-black text-[15px] font-medium shadow-[0_10px_40px_rgba(0,0,0,0.6)]"
             >
               <span className="w-2 h-2 rounded-full" style={{ background: '#d96aa8' }} />
-              Book a Strategy Call
+              Find my leaks
               <span aria-hidden="true">→</span>
             </button>
           </motion.div>

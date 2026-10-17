@@ -157,9 +157,8 @@ export default function LeakJourney({ onPhaseChange }: LeakJourneyProps) {
               />
             ))}
           </div>
-          <p className="text-white/45 text-[11px] sm:text-[12px] tracking-wide text-center max-w-xl">
-            Illustration based on published e-commerce benchmarks: ~2–3% average conversion,
-            ~70% cart abandonment (Baymard Institute).
+          <p className="text-white/40 text-[11px] sm:text-[12px] tracking-wide text-center">
+            Based on e-commerce benchmarks (Baymard Institute).
           </p>
         </div>
       </div>
