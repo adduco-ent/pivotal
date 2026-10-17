@@ -66,41 +66,124 @@ export default function ExperimentPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: entranceComplete ? 1 : 0 }}
           transition={{ duration: 1 }}
-          className="relative z-20 h-full w-full max-w-6xl mx-auto px-6 sm:px-8 flex flex-col justify-end pb-20 sm:pb-24"
+          className="relative z-20 flex flex-col justify-center h-full w-full max-w-[1400px] mx-auto px-6 sm:px-10 md:px-12 lg:px-16 pt-24 sm:pt-28 pb-12 sm:pb-16"
         >
-          <p className="text-white/60 text-[12px] sm:text-[13px] tracking-[0.25em] uppercase mb-6">
-            The Dirty Secret of Paid Traffic<span style={{ color: '#d96aa8' }}>.</span>
-          </p>
-          <h1 className="text-white font-normal leading-[0.98] tracking-[-0.03em] text-[clamp(40px,8vw,104px)]">
-            <ScrambleIn text="Why 98% of your ad spend" delay={200} triggered={entranceComplete} />
-            <br />
-            <ScrambleIn text="walks out the back door" delay={550} triggered={entranceComplete} />
-            <span style={{ color: '#d96aa8' }}>.</span>
-          </h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={entranceComplete ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.9, delay: 0.5 }}
-            className="mt-7 max-w-xl text-white/75 text-[16px] sm:text-[18px] leading-relaxed"
-          >
-            Meta and Google want you to believe you have a traffic problem. The truth? Pouring more ad spend into a leaking funnel is commercial suicide. Follow 100 paid buyers below.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={entranceComplete ? { opacity: 1 } : {}}
-            transition={{ duration: 1, delay: 1.4 }}
-            className="mt-12 flex items-center gap-3 text-white/55 text-[12px] tracking-[0.2em] uppercase"
-          >
-            <span className="relative block w-px h-10 bg-white/20 overflow-hidden">
-              <motion.span
-                className="absolute inset-x-0 top-0 h-4 bg-white"
-                animate={{ y: [-16, 40] }}
-                transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
-              />
+          {/* Subtle Anton SC Watermark */}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
+            <span
+              className="whitespace-nowrap text-[120px] sm:text-[clamp(140px,22vw,360px)]"
+              style={{
+                fontFamily: '"Anton SC", sans-serif',
+                letterSpacing: '-0.02em',
+                opacity: 0.04,
+                background: 'radial-gradient(circle, rgba(217,106,168,0.5) 0%, rgba(255,255,255,0.05) 70%)',
+                WebkitBackgroundClip: 'text',
+                backgroundClip: 'text',
+                color: 'transparent',
+              }}
+            >
+              LEAK ×
             </span>
-            Scroll for the financial autopsy
-          </motion.div>
+          </div>
+
+          <div className="relative z-10 w-full">
+            {/* Eyebrow */}
+            <div className="inline-flex items-center gap-2 mb-4 sm:mb-5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#d96aa8]" />
+              <p className="text-white/60 text-[11px] sm:text-[12px] tracking-[0.28em] uppercase font-mono">
+                The Dirty Secret of Paid Traffic
+              </p>
+            </div>
+
+            {/* Wide 2-Line Headline (Unconstrained, clean 2 lines) */}
+            <h1 className="text-white font-normal leading-[1.0] tracking-[-0.03em] text-[clamp(32px,4.6vw,66px)] mb-8 sm:mb-10 max-w-5xl">
+              <ScrambleIn text="98% of your ad spend" delay={200} triggered={entranceComplete} />
+              <br />
+              <ScrambleIn text="walks out the back door" delay={550} triggered={entranceComplete} />
+              <span style={{ color: '#d96aa8' }}>.</span>
+            </h1>
+
+            {/* 2-Column Split: Hook Copy + Scroll cue (Left) & Telemetry HUD (Right) */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-end">
+              <div className="lg:col-span-7 flex flex-col justify-end">
+                <motion.p
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={entranceComplete ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.9, delay: 0.4 }}
+                  className="text-white/70 text-[14px] sm:text-[16px] leading-relaxed max-w-xl mb-6 sm:mb-8"
+                >
+                  Meta and Google want you to believe you have a traffic problem. The truth? Pouring more ad spend into a leaking funnel is commercial suicide. Follow 100 paid buyers below.
+                </motion.p>
+
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={entranceComplete ? { opacity: 1 } : {}}
+                  transition={{ duration: 1, delay: 1.2 }}
+                  className="inline-flex items-center gap-3 text-white/50 text-[11px] sm:text-[12px] tracking-[0.2em] uppercase"
+                >
+                  <span className="relative block w-px h-8 bg-white/20 overflow-hidden">
+                    <motion.span
+                      className="absolute inset-x-0 top-0 h-3 bg-[#d96aa8]"
+                      animate={{ y: [-12, 32] }}
+                      transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+                    />
+                  </span>
+                  <span>Scroll for the financial autopsy ↓</span>
+                </motion.div>
+              </div>
+
+              {/* Right: Sleek Obsidian Telemetry Card (Desktop only — keeps mobile 100dvh clean) */}
+              <div className="hidden lg:block lg:col-span-5">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={entranceComplete ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 1, delay: 0.5 }}
+                  className="rounded-2xl border border-white/10 bg-black/50 backdrop-blur-xl p-5 sm:p-6 shadow-[0_20px_50px_rgba(0,0,0,0.6)]"
+                >
+                  <div className="flex items-center justify-between pb-3.5 border-b border-white/10 text-[11px] uppercase tracking-[0.2em] text-white/50">
+                    <span className="flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-[#d96aa8] animate-pulse" />
+                      Forensic Telemetry
+                    </span>
+                    <span className="text-white/40">100-Visitor Model</span>
+                  </div>
+
+                  <div className="py-4 space-y-3 text-[13px]">
+                    <div className="flex justify-between items-center text-white/70">
+                      <span className="text-white/50">Paid Traffic Ingest</span>
+                      <span className="text-white font-mono">100 Clicks</span>
+                    </div>
+                    <div className="flex justify-between items-center text-white/70">
+                      <span className="text-white/50">Ad Spend (@ $3.50 CPC)</span>
+                      <span className="text-white font-mono text-red-300">-$350.00</span>
+                    </div>
+                    <div className="flex justify-between items-center text-white/70">
+                      <span className="text-white/50">Completed Buyers (2%)</span>
+                      <span className="text-white font-mono text-emerald-400">2 Orders</span>
+                    </div>
+                    <div className="flex justify-between items-center text-white/70">
+                      <span className="text-white/50">Gross Revenue Produced</span>
+                      <span className="text-white font-mono text-emerald-400">+$300.00</span>
+                    </div>
+                  </div>
+
+                  <div className="pt-3.5 border-t border-white/10 flex items-center justify-between">
+                    <div>
+                      <div className="text-[10px] uppercase tracking-[0.2em] text-white/40">Net Cash Bleed</div>
+                      <div className="text-[20px] font-bold text-[#d96aa8] tracking-tight font-mono">
+                        -$50.00 <span className="text-[11px] font-normal text-white/50">/ batch</span>
+                      </div>
+                    </div>
+                    <div>
+                      <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-red-500/10 border border-red-500/25 text-red-300 text-[11px] tracking-wide">
+                        98% Walk Away
+                      </span>
+                    </div>
+                  </div>
+                </motion.div>
+              </div>
+            </div>
+          </div>
         </motion.div>
       </section>
 
