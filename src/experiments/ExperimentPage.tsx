@@ -14,12 +14,22 @@ import YourNumber from './journey/YourNumber'
 const HERO_VIDEO =
   'https://d8j0ntlcm91z4.cloudfront.net/user_3GBQGaD12kz0IEgO44KqK8F5cRh/hf_20260713_223732_a5b780e0-0e35-4cc4-916b-f06d32b2644e.mp4'
 
-// One line each. The page sells the call, not the service menu.
-const LEVERS = [
-  { n: '01', title: 'Offers that sell', line: 'New products and bundles that lift conversion and order value.' },
-  { n: '02', title: 'Brand & sales pages', line: 'Cinematic sites that earn premium prices.' },
-  { n: '03', title: 'Dashboards & CRM', line: 'Custom BI that shows where margin is made and lost.' },
-  { n: '04', title: '$100M+ ad partners', line: 'Media buyers who’ve scaled brands past $100M ARR.' },
+const MECHANISMS = [
+  {
+    n: '01',
+    title: 'Offer & Bundle Architecture',
+    desc: 'We re-architect what you sell. High-margin service bundles, new product tiers, and value-stacked continuity that explode Average Order Value and make cold traffic say yes.',
+  },
+  {
+    n: '02',
+    title: 'The Cinematic Conversion Shield',
+    desc: 'Flagship brand lifts and sales pages engineered with high-ticket visual authority. Eliminates buyer skepticism before they ever reach the checkout.',
+  },
+  {
+    n: '03',
+    title: '$100M+ ARR Intelligence Engine',
+    desc: 'Custom BI dashboards and bespoke CRM pipelines built to track true net margin. Backed by media buying partners who have scaled brands to nine figures in ARR.',
+  },
 ]
 
 export default function ExperimentPage() {
@@ -38,14 +48,14 @@ export default function ExperimentPage() {
     return () => clearTimeout(t)
   }, [])
 
-  // Floating CTA appears after the peak ("Two bought") and yields to the close.
+  // Floating CTA appears after peak tension ("Two bought")
   const pillVisible = reachedPeak && !heroInView && !closeInView
 
   return (
     <>
       <Navbar entranceComplete={entranceComplete} />
 
-      {/* Hero */}
+      {/* 1 · Hero: The Big Polarizing Idea */}
       <section ref={heroRef} className="relative h-screen h-[100dvh] overflow-hidden">
         <AutoVideo src={HERO_VIDEO} playbackRate={0.8} className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute inset-0 bg-black/45 pointer-events-none" />
@@ -58,19 +68,22 @@ export default function ExperimentPage() {
           transition={{ duration: 1 }}
           className="relative z-20 h-full w-full max-w-6xl mx-auto px-6 sm:px-8 flex flex-col justify-end pb-20 sm:pb-24"
         >
-          <h1 className="text-white font-normal leading-[0.98] tracking-[-0.03em] text-[clamp(40px,8.5vw,108px)]">
-            <ScrambleIn text="You paid for" delay={200} triggered={entranceComplete} />
+          <p className="text-white/60 text-[12px] sm:text-[13px] tracking-[0.25em] uppercase mb-6">
+            The Dirty Secret of Paid Traffic<span style={{ color: '#d96aa8' }}>.</span>
+          </p>
+          <h1 className="text-white font-normal leading-[0.98] tracking-[-0.03em] text-[clamp(40px,8vw,104px)]">
+            <ScrambleIn text="Why 98% of your ad spend" delay={200} triggered={entranceComplete} />
             <br />
-            <ScrambleIn text="every one of them" delay={550} triggered={entranceComplete} />
+            <ScrambleIn text="walks out the back door" delay={550} triggered={entranceComplete} />
             <span style={{ color: '#d96aa8' }}>.</span>
           </h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={entranceComplete ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.9, delay: 0.5 }}
-            className="mt-7 max-w-md text-white/75 text-[16px] sm:text-[18px] leading-relaxed"
+            className="mt-7 max-w-xl text-white/75 text-[16px] sm:text-[18px] leading-relaxed"
           >
-            Follow 100 paid visitors. See where your revenue walks out.
+            Meta and Google want you to believe you have a traffic problem. The truth? Pouring more ad spend into a leaking funnel is commercial suicide. Follow 100 paid buyers below.
           </motion.p>
 
           <motion.div
@@ -86,17 +99,17 @@ export default function ExperimentPage() {
                 transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
               />
             </span>
-            Scroll
+            Scroll for the financial autopsy
           </motion.div>
         </motion.div>
       </section>
 
-      {/* Leak breakdown: pure black, nothing moving behind it, so the dots own attention */}
+      {/* 2 · The 100-Visitor Cash Autopsy (Pure Black ground - zero distraction) */}
       <div className="relative bg-black">
         <LeakJourney onPhaseChange={(p) => p >= 4 && setReachedPeak(true)} />
       </div>
 
-      {/* Atmosphere returns only after the breakdown. The sky's own top mask fades it in. */}
+      {/* 3 · Cosmic Atmosphere fades in for Solution & Offer */}
       <div className="relative bg-black">
         <SharedNightSky />
 
@@ -104,7 +117,7 @@ export default function ExperimentPage() {
           <YourNumber />
         </div>
 
-        {/* Four levers */}
+        {/* 4 · The One Proprietary Weapon (Not a Service Menu) */}
         <section className="relative z-10 py-24 sm:py-32 px-6">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -115,32 +128,35 @@ export default function ExperimentPage() {
           >
             <div className="text-center mb-16 sm:mb-20">
               <ScrambleLabel
-                text="Beyond the funnel"
+                text="The Proprietary System"
                 className="text-white/55 text-[12px] sm:text-[13px] tracking-[0.25em] uppercase mb-6"
               />
               <h2 className="text-white font-normal text-[clamp(28px,5vw,52px)] leading-[1.12] tracking-[-0.02em]">
-                Four levers. One growth engine.
+                The 3-Point Profit Multiplier.
               </h2>
+              <p className="mt-5 text-white/60 text-[15px] sm:text-[17px] leading-relaxed max-w-xl mx-auto">
+                We don’t tweak button colors or sell commoditized checklists. We engineer the complete backend architecture so every dollar spent on ads yields maximum profit.
+              </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-16 gap-y-12 sm:gap-y-14">
-              {LEVERS.map((l, i) => (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10">
+              {MECHANISMS.map((m, i) => (
                 <motion.div
-                  key={l.n}
+                  key={m.n}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.5 }}
-                  transition={{ duration: 0.8, delay: i * 0.1 }}
-                  className="text-center sm:text-left"
+                  transition={{ duration: 0.8, delay: i * 0.12 }}
+                  className="p-8 rounded-3xl bg-white/[0.02] border border-white/10 hover:border-white/20 transition-all backdrop-blur-sm"
                 >
-                  <div className="text-[13px] tracking-[0.2em]" style={{ color: '#d96aa8' }}>
-                    {l.n}
+                  <div className="text-[13px] font-mono tracking-[0.2em]" style={{ color: '#d96aa8' }}>
+                    {m.n}
                   </div>
-                  <h3 className="mt-3 text-white font-normal text-[22px] sm:text-[26px] tracking-[-0.01em]">
-                    {l.title}
+                  <h3 className="mt-4 text-white font-normal text-[20px] sm:text-[22px] tracking-[-0.01em]">
+                    {m.title}
                   </h3>
-                  <p className="mt-3 text-white/60 text-[15px] sm:text-[16px] leading-relaxed max-w-sm mx-auto sm:mx-0">
-                    {l.line}
+                  <p className="mt-3 text-white/60 text-[14px] leading-relaxed">
+                    {m.desc}
                   </p>
                 </motion.div>
               ))}
@@ -148,8 +164,8 @@ export default function ExperimentPage() {
           </motion.div>
         </section>
 
-        {/* Close */}
-        <section ref={closeRef} className="relative z-10 pt-28 pb-32 sm:pt-32 sm:pb-40 px-6">
+        {/* 5 · The Godfather Offer: The 30-Minute Forensic Funnel Tear-Down */}
+        <section ref={closeRef} className="relative z-10 pt-24 pb-32 sm:pt-32 sm:pb-40 px-6">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -165,40 +181,63 @@ export default function ExperimentPage() {
                 height={112}
                 loading="lazy"
                 onError={() => setPhotoOk(false)}
-                className="w-24 h-24 sm:w-28 sm:h-28 rounded-full object-cover border border-white/15 mx-auto mb-10"
+                className="w-24 h-24 sm:w-28 sm:h-28 rounded-full object-cover border border-white/15 mx-auto mb-8"
               />
             ) : (
               <div
                 aria-hidden="true"
-                className="w-24 h-24 sm:w-28 sm:h-28 rounded-full border border-white/15 mx-auto mb-10 flex items-center justify-center text-white/60 text-[24px]"
+                className="w-24 h-24 sm:w-28 sm:h-28 rounded-full border border-white/15 mx-auto mb-8 flex items-center justify-center text-white/60 text-[24px]"
               >
                 JL
               </div>
             )}
 
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/10 text-xs font-mono text-white/80 mb-6">
+              <span className="w-2 h-2 rounded-full bg-[#d96aa8] animate-pulse" />
+              STRICTLY LIMITED · 4 AUDITS PER WEEK
+            </div>
+
             <h2 className="text-white font-normal text-[clamp(30px,6vw,56px)] leading-[1.12] tracking-[-0.02em]">
-              Where do your other 98 go?
+              Claim Your 30-Minute Forensic Funnel Tear-Down.
             </h2>
-            <p className="mt-8 text-white/75 text-[16px] sm:text-[19px] leading-relaxed">
-              “I build every system myself. No juniors, no hand-offs. I’ll show you where your revenue
-              leaks, and how to scale it.”
+
+            <div className="mt-8 text-left max-w-lg mx-auto space-y-4 text-[14px] sm:text-[15px] text-white/75 bg-white/[0.02] border border-white/10 p-6 rounded-2xl backdrop-blur-sm">
+              <div className="flex items-start gap-3">
+                <span className="text-[#d96aa8] font-bold text-base">✓</span>
+                <span><strong>Live Screen-Share Audit:</strong> We inspect your exact post-click drop-offs and checkout bottlenecks in real time.</span>
+              </div>
+              <div className="flex items-start gap-3">
+                <span className="text-[#d96aa8] font-bold text-base">✓</span>
+                <span><strong>The 3 Cash Bleed Points:</strong> Uncover the specific friction points where 98% of your paid traffic abandons ship.</span>
+              </div>
+              <div className="flex items-start gap-3">
+                <span className="text-[#d96aa8] font-bold text-base">✓</span>
+                <span><strong>Custom 14-Day Recovery Plan:</strong> The exact offer and layout fixes to lift conversion by 25–50% on current ad spend.</span>
+              </div>
+            </div>
+
+            <p className="mt-8 text-white/70 text-[15px] sm:text-[16px] leading-relaxed max-w-lg mx-auto italic">
+              “I run every single teardown personally. No junior account reps. If I look under your hood and don’t see at least $50,000 in immediate recoverable revenue, I’ll tell you in the first 5 minutes.”
             </p>
-            <p className="mt-6 text-[14px] tracking-wide">
+
+            <p className="mt-4 text-[14px] tracking-wide">
               <span className="text-white/90">Jarred Letofsky</span>
               <span className="text-white/55"> · Founder, PivotalX</span>
             </p>
 
-            <div className="mt-12">
+            <div className="mt-10">
               <motion.button
                 onClick={openBooking}
                 whileHover={{ scale: 1.03, backgroundColor: '#e2e2e6' }}
                 whileTap={{ scale: 0.97 }}
-                className="inline-flex items-center gap-2.5 h-14 px-9 bg-white rounded-full text-black text-[16px] font-medium"
+                className="inline-flex items-center gap-2.5 h-14 px-9 bg-white rounded-full text-black text-[16px] font-medium shadow-2xl"
               >
-                Find my leaks
+                Claim Your Forensic Audit
                 <span aria-hidden="true">→</span>
               </motion.button>
-              <p className="text-white/50 text-[13px] mt-4 tracking-wide">Free 30-minute review.</p>
+              <p className="text-white/45 text-[12px] sm:text-[13px] mt-4 tracking-wide">
+                Complimentary for brands doing $25k+/month. Zero sales pitch.
+              </p>
             </div>
           </motion.div>
         </section>
@@ -206,6 +245,7 @@ export default function ExperimentPage() {
 
       <Footer />
 
+      {/* Floating CTA Pill */}
       <AnimatePresence>
         {pillVisible && (
           <motion.div
@@ -220,7 +260,7 @@ export default function ExperimentPage() {
               className="pointer-events-auto inline-flex items-center gap-2.5 h-12 pl-5 pr-6 rounded-full bg-white text-black text-[15px] font-medium shadow-[0_10px_40px_rgba(0,0,0,0.6)]"
             >
               <span className="w-2 h-2 rounded-full" style={{ background: '#d96aa8' }} />
-              Find my leaks
+              Claim Your Audit
               <span aria-hidden="true">→</span>
             </button>
           </motion.div>

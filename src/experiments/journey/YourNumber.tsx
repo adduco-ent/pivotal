@@ -32,7 +32,7 @@ export default function YourNumber() {
           className="text-white/55 text-[12px] sm:text-[13px] tracking-[0.25em] uppercase mb-8"
         />
         <h2 className="text-white font-normal text-[clamp(28px,5.5vw,52px)] leading-[1.15] tracking-[-0.02em]">
-          What does your store make a month?
+          Calculate your quiet cash bleed.
         </h2>
 
         <div className="mt-10 flex flex-wrap justify-center gap-2.5" role="radiogroup" aria-label="Monthly revenue">
@@ -57,7 +57,7 @@ export default function YourNumber() {
         </div>
 
         <div className="mt-16">
-          <p className="text-white/65 text-[15px] sm:text-[17px]">Plugging one leak could be worth about</p>
+          <p className="text-white/65 text-[15px] sm:text-[17px]">Plugging one single leak recovers about</p>
           <div className="mt-4 text-white font-normal leading-none tracking-[-0.04em] text-[clamp(52px,11vw,128px)]">
             <span style={{ color: '#d96aa8' }}>+</span>
             <AnimatedNumber value={monthly} format={fullMoney} />
