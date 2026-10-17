@@ -19,23 +19,26 @@ export default function YourNumber() {
   const monthly = revenue * LIFT
 
   return (
-    <section className="relative pt-36 pb-28 sm:py-40 px-6">
+    <section className="relative pt-32 pb-24 sm:py-36 px-6">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 1.0 }}
-        className="max-w-3xl mx-auto text-center"
+        className="max-w-4xl mx-auto text-center"
       >
         <ScrambleLabel
-          text="Now make it yours"
-          className="text-white/55 text-[12px] sm:text-[13px] tracking-[0.25em] uppercase mb-8"
+          text="The Profit Recovery Model"
+          className="text-white/40 text-[11px] sm:text-[12px] tracking-[0.25em] uppercase font-mono mb-6"
         />
-        <h2 className="text-white font-normal text-[clamp(28px,5.5vw,52px)] leading-[1.15] tracking-[-0.02em]">
+        <h2 className="text-white font-normal text-[clamp(28px,5vw,52px)] leading-[1.12] tracking-[-0.02em]">
           Calculate your quiet cash bleed.
         </h2>
+        <p className="mt-4 text-white/55 text-[14px] sm:text-[16px] max-w-lg mx-auto">
+          Select your current monthly revenue to see what plugging one single funnel leak recovers:
+        </p>
 
-        <div className="mt-10 flex flex-wrap justify-center gap-2.5" role="radiogroup" aria-label="Monthly revenue">
+        <div className="mt-8 flex flex-wrap justify-center gap-2 sm:gap-2.5" role="radiogroup" aria-label="Monthly revenue">
           {REVENUE_STEPS.map((step) => {
             const active = step === revenue
             return (
@@ -44,10 +47,10 @@ export default function YourNumber() {
                 role="radio"
                 aria-checked={active}
                 onClick={() => setRevenue(step)}
-                className={`h-11 px-5 rounded-full text-[15px] border transition-colors ${
+                className={`h-10 sm:h-11 px-4 sm:px-5 rounded-full text-[14px] sm:text-[15px] font-mono border transition-all duration-200 ${
                   active
-                    ? 'bg-white text-black border-white'
-                    : 'bg-transparent text-white/75 border-white/20 hover:border-white/50 hover:text-white'
+                    ? 'bg-white text-black border-white shadow-[0_0_25px_rgba(255,255,255,0.25)]'
+                    : 'bg-white/[0.03] text-white/70 border-white/15 hover:border-white/40 hover:text-white'
                 }`}
               >
                 {shortMoney(step)}
@@ -56,17 +59,19 @@ export default function YourNumber() {
           })}
         </div>
 
-        <div className="mt-16">
-          <p className="text-white/65 text-[15px] sm:text-[17px]">Plugging one single leak recovers about</p>
-          <div className="mt-4 text-white font-normal leading-none tracking-[-0.04em] text-[clamp(52px,11vw,128px)]">
+        <div className="mt-12 sm:mt-16">
+          <p className="text-white/50 text-[12px] sm:text-[13px] uppercase tracking-[0.2em] font-mono">
+            Recoverable Monthly Cash Flow
+          </p>
+          <div className="mt-3 text-white font-normal leading-none tracking-[-0.04em] text-[clamp(54px,10vw,120px)]">
             <span style={{ color: '#d96aa8' }}>+</span>
             <AnimatedNumber value={monthly} format={fullMoney} />
           </div>
-          <p className="mt-4 text-white/65 text-[15px] sm:text-[17px]">
-            every month. That’s <AnimatedNumber value={monthly * 12} format={fullMoney} className="text-white" /> a year.
+          <p className="mt-4 text-white/70 text-[15px] sm:text-[17px]">
+            every month. That’s <AnimatedNumber value={monthly * 12} format={fullMoney} className="text-white font-medium" /> / year straight to your bottom line.
           </p>
-          <p className="mt-10 text-white/40 text-[12px] sm:text-[13px] leading-relaxed max-w-md mx-auto">
-            Assumes a half-point lift (2.0% → 2.5%). Your real number is what the review finds.
+          <p className="mt-6 text-white/35 text-[11px] sm:text-[12px] leading-relaxed max-w-md mx-auto font-mono">
+            *Assumes a conservative 0.5% conversion rate recovery on your current ad spend.
           </p>
         </div>
       </motion.div>
