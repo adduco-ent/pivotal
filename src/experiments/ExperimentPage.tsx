@@ -93,12 +93,10 @@ export default function ExperimentPage() {
           <div className="relative z-10 grid gap-0 sm:gap-6 md:grid-cols-[1fr_auto] md:items-end md:gap-10 lg:gap-16">
             {/* Left Headline */}
             <div className="order-1 md:col-start-1 md:row-start-1">
-              <div className="inline-flex items-center gap-2 mb-4 sm:mb-6">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#d96aa8]" />
-                <p className="text-white/60 text-[11px] sm:text-[12px] tracking-[0.28em] uppercase font-mono">
-                  The Dirty Secret of Paid Traffic
-                </p>
-              </div>
+              <ScrambleLabel
+                text="The Dirty Secret of Paid Traffic"
+                className="text-white/40 text-[12px] sm:text-[13px] tracking-[0.25em] uppercase mb-4 sm:mb-6"
+              />
               <h1 className="text-white font-normal leading-[0.95] tracking-[-0.03em] text-[clamp(32px,5.2vw,72px)]">
                 <ScrambleIn text="98% of your" delay={200} triggered={entranceComplete} />
                 <br />
@@ -170,7 +168,7 @@ export default function ExperimentPage() {
             <div className="text-center mb-16 sm:mb-20">
               <ScrambleLabel
                 text="The Proprietary System"
-                className="text-white/40 text-[11px] sm:text-[12px] tracking-[0.25em] uppercase font-mono mb-5"
+                className="text-white/40 text-[12px] sm:text-[13px] tracking-[0.25em] uppercase mb-6 sm:mb-8"
               />
               <h2 className="text-white font-normal text-[clamp(28px,5vw,52px)] leading-[1.12] tracking-[-0.02em]">
                 The 3-Point Profit Multiplier.
@@ -217,10 +215,10 @@ export default function ExperimentPage() {
             transition={{ duration: 1.0 }}
             className="max-w-3xl mx-auto text-center"
           >
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/10 text-[11px] font-mono tracking-wider text-white/80 mb-6">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#d96aa8] animate-pulse" />
-              STRICTLY LIMITED · 4 AUDITS PER WEEK
-            </div>
+            <ScrambleLabel
+              text="Strictly Limited · 4 Audits Per Week"
+              className="text-white/40 text-[12px] sm:text-[13px] tracking-[0.25em] uppercase mb-6 sm:mb-8"
+            />
 
             <h2 className="text-white font-normal text-[clamp(30px,5.5vw,54px)] leading-[1.12] tracking-[-0.02em]">
               Claim Your 30-Minute Forensic Funnel Tear-Down.

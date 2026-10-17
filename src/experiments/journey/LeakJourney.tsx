@@ -95,26 +95,29 @@ export default function LeakJourney({ onPhaseChange }: LeakJourneyProps) {
   return (
     <section ref={ref} className="relative" style={{ height: `${PHASES.length * 100}vh` }}>
       <div className="sticky top-0 h-screen h-[100dvh] overflow-hidden flex flex-col justify-center pt-20 pb-16">
-        <div className="w-full max-w-6xl mx-auto px-6 sm:px-8 grid md:grid-cols-2 gap-6 md:gap-16 items-center">
-          {/* The 100 */}
-          <div className="relative w-full aspect-square max-w-[230px] sm:max-w-[360px] md:max-w-[500px] mx-auto">
+        <div className="w-full max-w-6xl mx-auto px-6 sm:px-8 grid md:grid-cols-2 gap-8 md:gap-16 items-center">
+          {/* The 100 with centered count & label inside the matrix */}
+          <div className="relative w-full aspect-square max-w-[280px] sm:max-w-[380px] md:max-w-[480px] mx-auto flex items-center justify-center">
             <VisitorField alive={current.alive} recovered={current.recovered} />
+
+            {/* Large number and small text centered over the dots */}
+            <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none select-none">
+              <div className="flex flex-col items-center justify-center text-center p-6 sm:p-8 rounded-full bg-black/55 backdrop-blur-[2px]">
+                <AnimatedNumber
+                  value={total}
+                  className="font-normal leading-none tracking-[-0.04em] text-[clamp(64px,11vw,140px)] transition-colors duration-700 font-mono drop-shadow-[0_4px_30px_rgba(0,0,0,0.95)]"
+                  style={{ color: isRecovered ? '#d96aa8' : '#fff' }}
+                />
+                <span className="text-white/70 text-[12px] sm:text-[14px] uppercase tracking-[0.2em] font-mono mt-2 drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]">
+                  {current.counterLabel}
+                </span>
+              </div>
+            </div>
           </div>
 
-          {/* Counter + story */}
+          {/* Right column: Story Narrative with ample breathing room */}
           <div className="text-center md:text-left">
-            <div className="flex items-baseline justify-center md:justify-start gap-4">
-              <AnimatedNumber
-                value={total}
-                className="font-normal leading-none tracking-[-0.04em] text-[clamp(64px,13vw,168px)] transition-colors duration-700"
-                style={{ color: isRecovered ? '#d96aa8' : '#fff' }}
-              />
-              <span className="text-white/60 text-[14px] sm:text-[16px] tracking-wide">
-                {current.counterLabel}
-              </span>
-            </div>
-
-            <div className="mt-6 sm:mt-10 min-h-[190px] sm:min-h-[220px]">
+            <div className="min-h-[160px] sm:min-h-[190px] flex flex-col justify-center">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={phase}
@@ -122,21 +125,22 @@ export default function LeakJourney({ onPhaseChange }: LeakJourneyProps) {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -12 }}
                   transition={{ duration: 0.45, ease: [0.215, 0.61, 0.355, 1] }}
+                  className="max-w-lg mx-auto md:mx-0"
                 >
-                  <p className="text-white/55 text-[12px] sm:text-[13px] tracking-[0.2em] uppercase mb-4">
+                  <p className="text-white/40 text-[12px] sm:text-[13px] tracking-[0.25em] uppercase mb-4">
                     {current.eyebrow}
                     <span style={{ color: '#d96aa8' }}>.</span>
                   </p>
                   <h2
                     className={`text-white font-normal whitespace-pre-line leading-[1.12] tracking-[-0.02em] ${
                       current.quote
-                        ? 'text-[clamp(24px,3.6vw,40px)] italic'
-                        : 'text-[clamp(28px,4.2vw,48px)]'
+                        ? 'text-[clamp(26px,3.8vw,44px)] italic'
+                        : 'text-[clamp(30px,4.5vw,52px)]'
                     }`}
                   >
                     {current.headline}
                   </h2>
-                  <p className="mt-5 text-white/70 text-[15px] sm:text-[17px] leading-relaxed max-w-md mx-auto md:mx-0">
+                  <p className="mt-5 text-white/65 text-[15px] sm:text-[17px] leading-relaxed">
                     {current.body}
                   </p>
                 </motion.div>

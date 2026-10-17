@@ -29,7 +29,7 @@ export default function YourNumber() {
       >
         <ScrambleLabel
           text="The Profit Recovery Model"
-          className="text-white/40 text-[11px] sm:text-[12px] tracking-[0.25em] uppercase font-mono mb-6"
+          className="text-white/40 text-[12px] sm:text-[13px] tracking-[0.25em] uppercase mb-6 sm:mb-8"
         />
         <h2 className="text-white font-normal text-[clamp(28px,5vw,52px)] leading-[1.12] tracking-[-0.02em]">
           Calculate your quiet cash bleed.
